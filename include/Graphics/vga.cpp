@@ -45,7 +45,7 @@ void screen_init() {
   {
     outb(PALETTE_DATA, (((i >> 5) & 0x7) * (256 / 8)) / 4); // extract red   11111110 >> 5 = 00000111, last 3 red   & 0x7 = 00000111
     outb(PALETTE_DATA, (((i >> 2) & 0x7) * (256 / 8)) / 4); // extract green 11111110 >> 2 = 00111111, last 3 green & 0x7 = 00000111
-    outb(PALETTE_DATA, (((i >> 0) & 0x3) * (256 / 4)) / 4); // extract blue  11111110 >> 0 = 11111110, last 2 blue  & 0x7 = 00000010
+    outb(PALETTE_DATA, (((i >> 0) & 0x3) * (256 / 4)) / 4); // extract blue  11111110 >> 0 = 11111110, last 2 blue  & 0x3 = 00000010
     // 7 * 32 = 224, 224 / 4 = 56, range 0 - 56
   }
   // set color 255 = white

@@ -9,8 +9,8 @@ void outb(unsigned short port, unsigned char data) // write to i/o port
 unsigned char inb(unsigned short port)  // read from i/o port
 {
     unsigned char returnData;    
-    asm volatile("inb %1, %0"           // %0 refers to returnData, %1 refers to port, inb %1, %0 reads value from 'port' and store it in 'a' register
-    : "=a"(returnData) : "Nd"(port));   // "=a" output constraint, store the value from 'a' register to 'returnData'
+    asm volatile("inb %1, %0"           // %0 refers to returnData, %1 refers to port, inb %1, %0 reads data from 'port' and store it in 'a' register
+    : "=a"(returnData) : "Nd"(port));   // "=a" output constraint, store the data from 'a' register to 'returnData'
 
     return returnData;
 }
