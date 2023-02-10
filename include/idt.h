@@ -2,6 +2,8 @@
 
 #include "util.h"
 
+#define IDT_SIZE 256
+
 
 typedef enum{
     IDT_FLAG_GATE_TASK          = 0X5,  // hardware interrupts
@@ -19,7 +21,7 @@ typedef enum{
 
 } IDT_Flags;
 
-void i686_IDT_SetGate(int interrupt, void *base, uint_16 seg_desc, uint_16 _flags);
-void i686_IDT_EnableGate(int interrupt);
-void i686_IDT_EnableGate(int interrupt);
-void i686_IDT_Init();
+void IDT_SetGate(int interrupt, void *base, uint_16 seg_desc, uint_16 _flags);
+void IDT_EnableGate(int interrupt);
+void IDT_EnableGate(int interrupt);
+void IDT_Init();

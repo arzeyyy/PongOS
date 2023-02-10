@@ -1,45 +1,54 @@
 #include "../include/idt.h"
 
 typedef struct {
-    uint_16 base_low;
-    uint_16 selctor;    // a code segment selector
-    uint_8 reserved;
-    uint_8 flags;
-    uint_16 base_high;
+    uint_16 base_low;       // the lower 16 bits of the starting address of the interrupt handler function
+    uint_16 seg_selctor;    // segment of ISR location
+    uint_8 reserved;        // unused field
+    uint_8 flags;           // flags specifying the properties of the interrupt handler, type, attribute
+    uint_16 base_high;      // the upper 16 bits of the starting address of the interrupt handler function
 
-} __attribute__((packed)) IDTEntry;
+} __attribute__((packed)) IDT_Entry;
 
 typedef struct{
-    uint_16 limit;
-    IDTEntry* ptr;
-} __attribute__((packed)) IDTDescriptor;
+    uint_16 limit;          // the size of the IDT in bytes
+    IDT_Entry* ptr;
+} __attribute__((packed)) IDT_Pointer;
 
 
-IDTEntry g_IDT[256];
-IDTDescriptor g_IDTDescriptor = { sizeof(g_IDT) - 1, g_IDT };
-
-void __attribute__((cdec1)) i686_IDT_LOAD(IDTDescriptor* IDTDescriptor);
-
-void i686_IDT_SetGate(int interrupt, void* base, uint_16 seg_desc, uint_16 _flags)
+static struct
 {
-    g_IDT[interrupt].base_low = ((uint_32)base) & 0xFFFF;
-    g_IDT[interrupt].selctor = seg_desc;
-    g_IDT[interrupt].reserved = 0;
-    g_IDT[interrupt].flags = _flags;
-    g_IDT[interrupt].base_high = ((uint_32)base >> 16) & 0xFFFF;
+    IDT_Entry entries[IDT_SIZE];    //256
+    IDT_Pointer pointer = {sizeof(entries) - 1, entries};
+} idt;
+
+
+
+// IDT_Entry IDT[IDT_SIZE];
+// IDT_Pointer IDT_Ptr = { sizeof(IDT) - 1, IDT };
+
+void __attribute__((cdec1)) IDT_LOAD(IDT_Pointer* IDT_Ptr);
+
+void IDT_SetGate(int interrupt, void* base, uint_16 seg_desc, uint_16 _flags)
+{
+    idt.entries[interrupt].base_low = ((uint_32)base) & 0xFFFF;
+    idt.entries[interrupt].seg_selctor = seg_desc;
+    idt.entries[interrupt].reserved = 0;
+    idt.entries[interrupt].flags = _flags;
+    idt.entries[interrupt].base_high = ((uint_32)base >> 16) & 0xFFFF;
 }
 
-void i686_IDT_EnableGate(int interrupt)
+void IDT_EnableGate(int interrupt)
 {
-    FLAG_SET(g_IDT[interrupt].flags, IDT_FLAG_PRESENT);
+    FLAG_SET(idt.entries[interrupt].flags, IDT_FLAG_PRESENT);
 }
 
-void i686_IDT_EnableGate(int interrupt)
+void IDT_EnableGate(int interrupt)
 {
-    FLAG_UNSET(g_IDT[interrupt].flags, IDT_FLAG_PRESENT);
+    FLAG_UNSET(idt.entries[interrupt].flags, IDT_FLAG_PRESENT);
 }
 
-void i686_IDT_Init()
+void IDT_Init()
 {
-    i686_IDT_LOAD(&g_IDTDescriptor);
+    memset(idt.entries, 0, IDT_SIZE);
+    IDT_LOAD(&idt.pointer);
 }
