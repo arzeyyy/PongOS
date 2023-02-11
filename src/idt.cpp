@@ -17,11 +17,9 @@ typedef struct{
 
 static struct
 {
-    IDT_Entry entries[IDT_SIZE];    //256
+    IDT_Entry entries[IDT_SIZE];    //256 interrupt vectors
     IDT_Pointer pointer = {sizeof(entries) - 1, entries};
 } idt;
-
-
 
 // IDT_Entry IDT[IDT_SIZE];
 // IDT_Pointer IDT_Ptr = { sizeof(IDT) - 1, IDT };

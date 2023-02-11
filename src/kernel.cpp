@@ -1,5 +1,6 @@
 #include "../include/Graphics/vga.h"
 #include "../include/Graphics/Rect.h"
+#include "../include/Graphics/Font.h"
 #include "../include/Text.h"
 #include "../include/util.h"
 
@@ -24,20 +25,24 @@ extern "C" void main()
     
     clear();
     screen_init();
-    draw_palette_tester();
+    //draw_palette_tester();
     //draw_pixel(319, 199, 0xFF);
 
-    // Rect rect;
-    // rect.setPosition(100, 100);
-    // rect.setSize(10, 10);
-    // rect.draw();
+    Rect rect;
+    rect.setPosition(100, 100);
+    rect.setSize(10, 10);
+    rect.draw();
 
 
-    // Rect rect1;
-    // rect1.setPosition(50, 50);
-    // rect1.setSize(20, 20);
-    // rect1.draw();
+    Rect rect1;
+    rect1.setPosition(50, 50);
+    rect1.setSize(20, 20);
+    rect1.draw();
 
+    Font font;
+    font.setColor(123);
+    font.setPosition(160, 100);
+    font.setString("PongOS");
 
     return;
 }

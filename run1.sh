@@ -6,10 +6,11 @@ i386-elf-gcc -ffreestanding -m32 -g -c -fno-common "src/kernel.cpp" -o "build/ke
 i386-elf-gcc -ffreestanding -m32 -g -c -fno-common "include/Graphics/vga.cpp" -o "build/vga.o"
 i386-elf-gcc -ffreestanding -m32 -g -c -fno-common "src/util.cpp" -o "build/util.o"
 i386-elf-gcc -ffreestanding -m32 -g -c -fno-common "src/Text.cpp" -o "build/Text.o"
+i386-elf-gcc -ffreestanding -m32 -g -c -fno-common "src/Font.cpp" -o "build/Font.o"
 
 nasm "src/zeroes.asm" -f bin -o "build/zeroes.bin"
 
-i386-elf-ld -o "build/full_kernel.bin" -Ttext 0x1000 "build/kernel_entry.o" "build/kernel.o" "build/util.o" "build/Text.o" "build/vga.o"  --oformat binary 
+i386-elf-ld -o "build/full_kernel.bin" -Ttext 0x1000 "build/kernel_entry.o" "build/kernel.o" "build/util.o" "build/Text.o" "build/vga.o" "build/Font.o" --oformat binary 
 
 
 cat "build/boot.bin" "build/full_kernel.bin" "build/zeroes.bin"  > "build/OS.bin"

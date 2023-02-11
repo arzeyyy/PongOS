@@ -1,5 +1,8 @@
 #pragma once
 
+// The IDT (interrupt descriptor table) is a data structure that holds information about 
+// all the interrupt service routines(ISRs) that the operating system can handle
+
 #include "util.h"
 
 #define IDT_SIZE 256
