@@ -34,3 +34,16 @@ void *memcpy(void *dst, const void *src, size_t n) {
 
     return dst;
 }
+
+char *strcpy(char *dest, const char *src)
+{
+    int char_counter = 0;
+    
+    while (src[char_counter] != '\0')
+    {
+        dest[char_counter] = src[char_counter];
+        char_counter++;
+    }
+    dest[char_counter] = '\0';
+    return (dest);
+}

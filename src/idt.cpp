@@ -1,5 +1,8 @@
 #include "../include/idt.h"
 
+
+#define IDT_SIZE 256
+
 typedef struct {
     uint_16 base_low;       // the lower 16 bits of the starting address of the interrupt handler function
     uint_16 seg_selctor;    // segment of ISR location
@@ -26,21 +29,24 @@ static struct
 
 void __attribute__((cdec1)) IDT_LOAD(IDT_Pointer* IDT_Ptr);
 
-void IDT_SetGate(int interrupt, void* base, uint_16 seg_desc, uint_16 _flags)
+void IDT_SetGate(uint_8 interrupt, void* base, uint_16 seg_desc, uint_16 _flags)
 {
     idt.entries[interrupt].base_low = ((uint_32)base) & 0xFFFF;
     idt.entries[interrupt].seg_selctor = seg_desc;
     idt.entries[interrupt].reserved = 0;
     idt.entries[interrupt].flags = _flags;
     idt.entries[interrupt].base_high = ((uint_32)base >> 16) & 0xFFFF;
+
+    outb(0x21, 0xfd);
+    outb(0xa1, 0xff);
 }
 
-void IDT_EnableGate(int interrupt)
+void IDT_EnableGate(uint_8 interrupt)
 {
     FLAG_SET(idt.entries[interrupt].flags, IDT_FLAG_PRESENT);
 }
 
-void IDT_EnableGate(int interrupt)
+void IDT_DisableGate(uint_8 interrupt)
 {
     FLAG_UNSET(idt.entries[interrupt].flags, IDT_FLAG_PRESENT);
 }

@@ -41,8 +41,12 @@ extern "C" void main()
 
     Font font;
     font.setColor(123);
-    font.setPosition(160, 100);
-    font.setString("PongOS");
+    font.setPosition(10, 0);
+    //font.setOrigin(font.getLocalBounds().width / 2, font.getLocalBounds().height / 2);
+    //font.setString("PongOS\nnew line");
+    font.setString("                                 \n _____             _____ _____   \n|  _  |___ ___ ___|     |   __|  \n|   __| . |   | . |  |  |__   |  \n|__|  |___|_|_|_  |_____|_____|  \n              |___|              ");
+    font.draw();
+
 
     return;
 }

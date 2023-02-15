@@ -13,3 +13,4 @@ void outb(unsigned short port, unsigned char val);
 unsigned char inb(unsigned short port);
 void memset(void *ptr, uint_8 value, size_t num);
 void *memcpy(void *dst, const void *src, size_t n);
+char *strcpy(char *dest, const char *src);

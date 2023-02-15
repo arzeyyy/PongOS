@@ -5,7 +5,6 @@
 
 #include "util.h"
 
-#define IDT_SIZE 256
 
 
 typedef enum{
@@ -24,7 +23,7 @@ typedef enum{
 
 } IDT_Flags;
 
-void IDT_SetGate(int interrupt, void *base, uint_16 seg_desc, uint_16 _flags);
-void IDT_EnableGate(int interrupt);
-void IDT_EnableGate(int interrupt);
+void IDT_SetGate(uint_8 interrupt, void *base, uint_16 seg_desc, uint_16 _flags);
+void IDT_EnableGate(uint_8 interrupt);
+void IDT_DisableGate(uint_8 interrupt);
 void IDT_Init();

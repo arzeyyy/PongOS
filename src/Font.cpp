@@ -1,9 +1,8 @@
 #include "../include/Graphics/Font.h"
-#include "../include/Graphics/vga.h"
 
 // The value of each 8-bit integer represents a row of pixels in the character
 
-//8x8-bit font
+// 8x8-bit font
 static const uint_8 FONT[128][8] = {
     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // U+0000 (nul)
     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // U+0001
@@ -141,6 +140,8 @@ Font::Font(/* args */)
     pos_x = 0;
     pos_y = 0;
 
+    init_x = 0;
+    init_y = 0;
 
     color = 0xFF;
 }
@@ -153,6 +154,8 @@ void Font::setPosition(uint_16 pos_x, uint_16 pos_y)
 {
     this->pos_x = pos_x;
     this->pos_y = pos_y;
+    init_x = pos_x;
+    init_y = pos_y;
 }
 
 void Font::setColor(uint_8 color)
@@ -162,16 +165,16 @@ void Font::setColor(uint_8 color)
 
 void Font::setChar(char c)
 {
-    if(c < 0 || c > 128)
-       return;
+    if (c < 0 || c > 128)
+        return;
 
-    const uint_8 *glyph = FONT[(size_t)c];  //c is index to acces specific row in FONT
+    const uint_8 *glyph = FONT[(size_t)c]; // c is index to acces specific row in FONT
 
-    for (size_t yy = 0; yy < 8; yy++)       // yy = whole line, columns
+    for (size_t yy = 0; yy < 8; yy++) // yy = whole line, columns
     {
-        for (size_t xx = 0; xx < 8; xx++)   // xx = 1 byte, rows
+        for (size_t xx = 0; xx < 8; xx++) // xx = 1 byte, rows
         {
-            if (glyph[yy] & (1 << xx))      // (1 << xx), xx=2, bitwise left 00000001 = 00000100,
+            if (glyph[yy] & (1 << xx)) // (1 << xx), xx=2, bitwise left 00000001 = 00000100,
             {
                 draw_pixel(pos_x + xx, pos_y + yy, color);
             }
@@ -179,14 +182,49 @@ void Font::setChar(char c)
     }
 }
 
-void Font::setString(const char *s) 
+void Font::setString(const char *s)
+{
+    //*string = *s;
+    strcpy(string, s);
+}
+
+void Font::draw()
 {
     char c;
 
-    while ((c = *s++) != 0) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
+    while ((c = *string++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
     {
-        setChar(c);
-        pos_x += 8;
+        switch (c)
+        {
+        case NEW_LINE:
+            pos_y += 8;
+            pos_x = init_x;
+            break;
+
+        default:
+            setChar(c);
+            pos_x += 8;
+            break;
+        }
     }
 }
 
+void Font::setOrigin(uint_16 x, uint_16 y)
+{
+    pos_x -= x;
+    pos_y -= y;
+}
+
+struct Font::Bounds Font::getLocalBounds() const
+{
+    int width = 0;
+    int height = 8;
+    const char *s = this->string;
+    char c;
+
+    while ((c = *s++) != 0)
+    {
+        width += 8;
+    }
+    return {width, height};
+}
