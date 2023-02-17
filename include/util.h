@@ -2,6 +2,7 @@
 
 #define FLAG_SET(x, flag) x |= (flag)
 #define FLAG_UNSET(x, flag) x &= ~(flag)
+#define NULL (0)
 
 typedef unsigned char uint_8;
 typedef unsigned short uint_16;

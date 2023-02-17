@@ -23,7 +23,7 @@ typedef enum{
 
 } IDT_Flags;
 
-void IDT_SetGate(uint_8 interrupt, void *base, uint_16 seg_desc, uint_16 _flags);
+void IDT_SetGate(uint_8 interrupt, void *base, uint_16 seg_desc, uint_8 _flags);
 void IDT_EnableGate(uint_8 interrupt);
 void IDT_DisableGate(uint_8 interrupt);
 void IDT_Init();

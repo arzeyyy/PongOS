@@ -2,43 +2,47 @@
 
 section .text
 
-gloabl int_bottom:
-int_bottom:
+gloabl isr_common:
 
-    pushad          ; Save the general-purpose registers
-    push ds         ; Save the data segment selector
-    push es         ; Save the extra segment selector
-    push fs
-    push gs
+; Define macro for generating ISR functions
+%macro ISR 1
+    global isr%1
+    isr%1:
+        pushad          ; Save the general-purpose registers
+        push ds         ; Save the data segment selector
+        push es         ; Save the extra data segment selector
+        push fs         ; save the thread-local storage segment selector
+        push gs         ; save the process-specific segment selector
 
-    push %esp       ; stack pointer
-    push (int_num)
-    call isr_handler
+        push dword %1   ; Push interrupt number onto stack
 
-    movl %eax, %esp 
+        ;push %esp       ; stack pointer
 
-    pop gs
-    pop fs
-    pop es          ; Restore the extra segment selector
-    pop ds          ; Restore the data segment selector
-    popad           ; Restore the general-purpose registers
-    
-    iretd           ; Return from the interrupt
+        push (int_num)
+        call isr_handler
 
+        mov esp, ebp    ; Move stack pointer back to base pointer
 
+        pop gs
+        pop fs
+        pop es       
+        pop ds          
+        popad           ; Restore the general-purpose registers
 
-    ; mov ax, CODE_SEG ; Load the code segment selector
-    ; mov ds, ax
-    ; mov es, ax
+        add esp, 4      ; Remove interrupt number from stack
 
-    ; Read the scancode from the keyboard controller
-    ; Place it in a buffer or process it as necessary
+        iretd           ; Return from the interrupt
+%endmacro
 
+section .data
+    int_num: db 0 
+    ;int_num: .byte 0
 
-.data
-    int_num: .byte 0
-
-isr_common:
+section .bss
+    ; Define buffer for interrupt stack
+    stack:
+        resb 4096
+        
 ; [extern isr1_handler]
 ; isr1:
 
