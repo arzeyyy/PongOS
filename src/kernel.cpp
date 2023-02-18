@@ -5,6 +5,7 @@
 #include "../include/util.h"
 #include "../include/idt.h"
 #include "../include/irq.h"
+#include "../include/isr.h"
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 200
@@ -30,10 +31,10 @@ extern "C" void main()
 {
     // Initialize IDT and IRQ
     idt_Init();
-    irq_init();
-    irq_init();
+    isr_init();
+    //irq_init();
 
-    trigger_exception();
+    //trigger_exception();
 
     // Clear(BACKGROUND_BLUE | FOREGROUND_WHITE);
     // SetCursorPosition(PositionFromCords(0, 0));
