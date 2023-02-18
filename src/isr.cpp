@@ -55,12 +55,13 @@ void isr_install(uint_8 num, void (*handler)(struct Registers *)) {
 
 void exception_handler(struct Registers *regs)
 {
-    panic(exceptions[regs->int_num]);
+    //panic(exceptions[regs->int_num]);
+    panic(toString(regs->int_num));
 }
 
 extern "C" void isr_handler(struct Registers *regs)
 {
-    uint_8 int_num = inb(0x20);         // reads the interrupt number from PIC Mask Register
+    uint_8 int_num = inb(0x21); // reads the interrupt number from PIC Interrupt Request Register
     if (handlers[int_num] != NULL)
     {
         void (*handler)(struct Registers *) = handlers[int_num];

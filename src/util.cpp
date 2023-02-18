@@ -47,3 +47,92 @@ char *strcpy(char *dest, const char *src)
     dest[char_counter] = '\0';
     return (dest);
 }
+
+size_t strlen(const char *str)
+{
+    size_t length = 0;
+    while (*str != 0)
+    {
+        length++;
+    }
+
+    return length;
+}
+
+void reverse(char str[], int length)
+{
+    int start = 0;
+    int end = length - 1;
+    while (start < end)
+    {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+char *toString(size_t num, bool hexadecimal)
+{
+    if(hexadecimal == true)
+    {
+        static char buffer[33]; // max 32 bit integer
+        int i = 30;
+        buffer[31] = '\0';
+        bool is_negative = false;
+        if (num < 0)
+        {
+            is_negative = true;
+            num = -num;
+        }
+        if (num == 0)
+        {
+            buffer[30] = '0';
+            return &buffer[30];
+        }
+        while (num != 0 && i)
+        {
+            buffer[i--] = "0123456789abcdef"[num % 16];
+            num /= 16;
+        }
+        if (is_negative)
+        {
+            buffer[i--] = '-';
+        }
+        return &buffer[i + 1];
+    }
+
+    static char str[20]; // Make sure this is large enough to hold the largest possible number
+    int i = 0;
+    bool isNegative = false;
+
+    // Handle negative numbers
+    if (num < 0)
+    {
+        isNegative = true;
+        num = -num;
+    }
+
+    // Convert the number to a string in reverse order
+    while (num != 0)
+    {
+        str[i++] = (num % 10) + '0';
+        num /= 10;
+    }
+
+    // Add the negative sign if needed
+    if (isNegative)
+    {
+        str[i++] = '-';
+    }
+
+    // Terminate the string
+    str[i] = '\0';
+
+    // Reverse the string
+    reverse(str, i);
+
+    // Return the string
+    return str;
+}
