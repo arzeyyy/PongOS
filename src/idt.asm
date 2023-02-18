@@ -1,6 +1,6 @@
 [bits 32]
 
-global IDT_LOAD
+[extern IDT_LOAD]
 
 IDT_LOAD:
     ; make new call frame
