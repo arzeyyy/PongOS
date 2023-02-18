@@ -31,7 +31,8 @@ void trigger_exception()
 extern "C" void main()
 {
     // Initialize IDT and IRQ
-    IDT_Init();
+    idt_Init();
+    irq_init();
     irq_init();
 
     trigger_exception();

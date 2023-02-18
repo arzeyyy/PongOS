@@ -1,6 +1,7 @@
 [bits 32]
 
 global IDT_LOAD
+
 IDT_LOAD:
     ; make new call frame
     push ebp            ; save old call frame on the stack

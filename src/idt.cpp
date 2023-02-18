@@ -25,7 +25,7 @@ static struct
 } idt;
 
 // IDT_Entry IDT[IDT_SIZE];
-// IDT_Pointer IDT_Ptr = { sizeof(IDT) - 1, IDT };
+// IDT_Pointer pointer = {sizeof(idt) - 1, idt.entries};
 
 extern "C" void IDT_LOAD(IDT_Pointer *IDT_Ptr);
 
@@ -48,7 +48,7 @@ void IDT_DisableGate(uint_8 interrupt)
     FLAG_UNSET(idt.entries[interrupt].flags, IDT_FLAG_PRESENT);
 }
 
-void IDT_Init()
+void idt_Init()
 {
     idt.pointer.limit = sizeof(idt.entries) - 1;
     idt.pointer.base = idt.entries;

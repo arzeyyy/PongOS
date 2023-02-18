@@ -64,7 +64,7 @@ void irq_init()
     outb(PIC2_DATA, INT_OFFSET);
 
 
-    IDT_Init();
+    idt_Init();
     asm volatile("sti"); // enable hardware interrupts
 }
 
