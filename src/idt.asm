@@ -1,10 +1,10 @@
 [bits 32]
 
-gloabl IDT_LOAD
+global IDT_LOAD
 IDT_LOAD:
     ; make new call frame
     push ebp            ; save old call frame on the stack
-    move ebp, esp       ; init new call frame with stack ptr
+    mov ebp, esp       ; init new call frame with stack ptr
 
     ; load idt
     mov eax, [ebp + 8]  ; retrive pointer to IDT_Descriptor from stack
@@ -15,5 +15,3 @@ IDT_LOAD:
     pop ebp             ; restores the original call frame
     ret                 ; return control to caller
 
-
-; void __attribute__((cdec1)) IDT_LOAD(IDTDescriptor* IDTDescriptor);

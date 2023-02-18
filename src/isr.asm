@@ -2,7 +2,7 @@
 
 section .text
 
-gloabl isr_common:
+global isr_common:
 
 ; Define macro for generating ISR functions
 %macro ISR 1

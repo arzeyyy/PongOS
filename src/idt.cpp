@@ -27,7 +27,7 @@ static struct
 // IDT_Entry IDT[IDT_SIZE];
 // IDT_Pointer IDT_Ptr = { sizeof(IDT) - 1, IDT };
 
-void __attribute__((cdec1)) IDT_LOAD(IDT_Pointer* IDT_Ptr);
+extern "C" void IDT_LOAD(IDT_Pointer *IDT_Ptr);
 
 void IDT_SetGate(uint_8 interrupt, void *base, uint_16 seg_selector, uint_8 flags)
 {

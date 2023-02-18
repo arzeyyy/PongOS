@@ -71,9 +71,10 @@ void irq_init()
 extern "C" void irq_handler(struct Registers *regs)
 {
     // reads the interrupt number from PIC Mask Register
-    uint_8 int_num = inb(PIC1_MASK); 
+    uint_8 int_num = inb(PIC1_MASK);
 
-    if (int_num >= 32 && int_num < 48)
+    // 32 - 47 reserved  hardware interrupts of PIC
+    if (int_num >= 32 && int_num < 48)  
     {
         // 40 - 48 = Slave PIC
         if (int_num >= 40)

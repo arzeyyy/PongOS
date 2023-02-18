@@ -4,7 +4,6 @@
 #include "vga.h"
 
 #define NEW_LINE 10
-#define NULL 0
 
 
 class Font

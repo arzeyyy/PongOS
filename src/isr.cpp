@@ -53,6 +53,11 @@ void isr_install(uint_8 num, void (*handler)(struct Registers *)) {
     IDT_SetGate(num, (void *)handler, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
 }
 
+void exception_handler(struct Registers *regs)
+{
+    panic(exceptions[regs->int_num]);
+}
+
 extern "C" void isr_handler(struct Registers *regs)
 {
     uint_8 int_num = inb(0x20);         // reads the interrupt number from PIC Mask Register
@@ -67,10 +72,7 @@ extern "C" void isr_handler(struct Registers *regs)
     }
 }
 
-void exception_handler(struct Registers *regs)
-{
-    panic(exceptions[regs->int_num]);
-}
+
 
 void isr_init()
 {
