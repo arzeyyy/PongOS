@@ -18,8 +18,12 @@ void *_Unwind_Resume = 0;
 
 void trigger_exception()
 {
-    int *ptr = nullptr;
-    *ptr = 1;
+    //int *ptr = nullptr;
+    //*ptr = 1;
+
+    uint_8 a = 5;
+    uint_8 b = 0;
+    uint_8 c = a / b;
 }
 
 extern "C" void main()
