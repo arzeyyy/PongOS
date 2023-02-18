@@ -34,7 +34,7 @@ extern "C" void main()
     IDT_Init();
     irq_init();
 
-    //trigger_exception();
+    trigger_exception();
 
     // Clear(BACKGROUND_BLUE | FOREGROUND_WHITE);
     // SetCursorPosition(PositionFromCords(0, 0));
