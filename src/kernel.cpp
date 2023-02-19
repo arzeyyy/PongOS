@@ -19,22 +19,27 @@ void *_Unwind_Resume = 0;
 
 void trigger_exception()
 {
-    //int *ptr = nullptr;
-    //*ptr = 1;
+    // int *ptr = nullptr;
+    // *ptr = 1;
+    asm volatile("int $0x3");
+    //asm volatile("int $0x4");
 
-    uint_8 a = 5;
-    uint_8 b = 0;
-    uint_8 c = a / b;
+    //__asm__(".byte 0xff, 0xff"); // invalid opcode
+
+    //uint_8 a = 5;
+    //uint_8 b = 0;
+    //uint_8 c = a / b;
 }
 
 extern "C" void main()
 {
     // Initialize IDT and IRQ
+
     idt_Init();
     isr_init();
     //irq_init();
-
     trigger_exception();
+
 
     // Clear(BACKGROUND_BLUE | FOREGROUND_WHITE);
     // SetCursorPosition(PositionFromCords(0, 0));
