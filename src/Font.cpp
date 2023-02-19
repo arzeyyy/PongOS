@@ -143,7 +143,7 @@ Font::Font(/* args */)
     init_x = 0;
     init_y = 0;
 
-    color = 0xFF;
+    color = 0x0f;
 }
 
 Font::~Font()

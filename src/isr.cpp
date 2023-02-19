@@ -4,19 +4,19 @@
 
 #define NUM_ISRS 48
 
-//extern "C" void isr0(struct Registers *);
-//extern "C" void isr1(struct Registers *);
-//extern "C" void isr2(struct Registers *);
+// extern "C" void isr0(struct Registers *);
+// extern "C" void isr1(struct Registers *);
+// extern "C" void isr2(struct Registers *);
 
 const char *exceptions[] = {
-    "Division By Zero",
-    "Debug",
+    "Division By Zero exception",
+    "Debug exception",
     "Non Maskable Interrupt",
-    "Breakpoint",
+    "Breakpoint exception",
     "Into Detected Overflow",
-    "Out of Bounds",
-    "Invalid Opcode",
-    "No Coprocessor",
+    "Out of Bounds exception",
+    "Invalid Opcode exception",
+    "No Coprocessor exception",
     "Double Fault",
     "Coprocessor Segment Overrun",
     "Bad TSS",
@@ -24,10 +24,10 @@ const char *exceptions[] = {
     "Stack Fault",
     "General Protection Fault",
     "Page Fault",
-    "Unknown Interrupt",
+    "Unknown Interrupt exception",
     "Coprocessor Fault",
-    "Alignment Check",
-    "Machine Check",
+    "Alignment Check exception",
+    "Machine Check exception",
     "Reserved",
     "Reserved",
     "Reserved",
@@ -44,36 +44,35 @@ const char *exceptions[] = {
     "Reserved",
 };
 
-//initialize array of pointers to function 0 of size NUM_ISRS with argument Registers *
+// initialize array of pointers to function 0 of size NUM_ISRS with argument Registers *
 static void (*handlers[NUM_ISRS])(struct Registers *) = {NULL};
 
-
-void isr_install(uint_8 num, void (*handler)(struct Registers *)) {
+void isr_install(uint_8 num, void (*handler)(struct Registers *))
+{
     handlers[num] = handler;
     IDT_SetGate(num, (void *)handler, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
 }
 
 void exception_handler(struct Registers *regs)
 {
-    //panic(exceptions[regs->int_num]);
-    panic(toString(regs->int_num));
+    panic(exceptions[regs->int_num]);
+    //panic(toString(regs->int_num));
 }
 
 extern "C" void isr_handler(struct Registers *regs)
 {
+    panic(toString(regs->int_num));
     uint_8 int_num = inb(0x21); // reads the interrupt number from PIC Interrupt Request Register
     if (handlers[int_num] != NULL)
     {
-        void (*handler)(struct Registers *) = handlers[int_num];
-        handler(regs);
+       void (*handler)(struct Registers *) = handlers[int_num];
+       handler(regs);
     }
     else if (int_num < NUM_ISRS)
     {
-        exception_handler(regs);
+       exception_handler(regs);
     }
 }
-
-
 
 void isr_init()
 {
@@ -86,4 +85,4 @@ void isr_init()
     {
         isr_install(i, exception_handler);
     }
-}   
+}
