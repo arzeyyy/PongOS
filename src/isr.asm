@@ -54,12 +54,3 @@ section .bss
     stack:
         resb 4096
         
-; [extern isr1_handler]
-; isr1:
-
-;     pusha
-;     call isr1_handler
-;     popa
-
-;     iretd
-;     gloabl isr1:
