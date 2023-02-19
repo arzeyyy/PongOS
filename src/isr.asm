@@ -2,41 +2,52 @@
 
 section .text
 
-global isr_common:
-
-; Define macro for generating ISR functions
-%macro ISR 1
-    global isr%1
-    isr%1:
-        pushad          ; Save the general-purpose registers
-        push ds         ; Save the data segment selector
-        push es         ; Save the extra data segment selector
-        push fs         ; save the thread-local storage segment selector
-        push gs         ; save the process-specific segment selector
-
-        push dword %1   ; Push interrupt number onto stack
-
-        ;push %esp       ; stack pointer
-
-        push (int_num)
-        call isr_handler
-
-        mov esp, ebp    ; Move stack pointer back to base pointer
-
-        pop gs
-        pop fs
-        pop es       
-        pop ds          
-        popad           ; Restore the general-purpose registers
-
-        add esp, 4      ; Remove interrupt number from stack
-
-        iretd           ; Return from the interrupt
+%macro ISR_NOERRCODE 1  ; define a macro, taking one parameter
+  [GLOBAL isr%1]        ; %1 accesses the first parameter.
+  isr%1:
+    cli
+    push byte 0
+    push byte %1
+    jmp isr_common_stub
 %endmacro
 
+%macro ISR_ERRCODE 1
+  [GLOBAL isr%1]
+  isr%1:
+    cli
+    push byte %1
+    jmp isr_common_stub
+%endmacro
+
+[extern isr_handler]
+
+isr_common_stub:
+   pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
+
+   mov ax, ds               ; Lower 16-bits of eax = ds.
+   push eax                 ; save the data segment descriptor
+
+   mov ax, 0x10  ; load the kernel data segment descriptor
+   mov ds, ax
+   mov es, ax
+   mov fs, ax
+   mov gs, ax
+
+   call isr_handler
+
+   pop eax        ; reload the original data segment descriptor
+   mov ds, ax
+   mov es, ax
+   mov fs, ax
+   mov gs, ax
+
+   popa                     ; Pops edi,esi,ebp...
+   add esp, 8     ; Cleans up the pushed error code and pushed ISR number
+   sti
+   iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+
 section .data
-    int_num: db 0 
-    ;int_num: .byte 0
+
 
 section .bss
     ; Define buffer for interrupt stack
