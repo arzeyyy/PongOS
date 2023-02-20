@@ -50,18 +50,21 @@ static void (*handlers[NUM_ISRS])(registers_t) = {NULL};
 void isr_install(uint_8 num, void (*handler)(registers_t))
 {
     handlers[num] = handler;
-    IDT_SetGate(num, (void *)handler, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
+    //IDT_SetGate(num, (void *)handler, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
 }
 
 void exception_handler(registers_t regs)
 {
-    //panic(exceptions[regs.int_num]);
-    panic(toString(regs.int_num));
+    panic(exceptions[regs.int_num]);
+    //panic(toString(regs.int_num));
 }
 
 extern "C" void isr_handler(registers_t regs)
 {
-    panic(toString(regs.int_num));
+    //panic(toString(regs.int_num));
+    
+    panic(exceptions[regs.int_num]);
+
     //uint_8 int_num = inb(0x21); // reads the interrupt number from PIC Interrupt Request Register
     //if (handlers[int_num] != NULL)
     //{

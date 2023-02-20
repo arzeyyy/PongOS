@@ -31,13 +31,13 @@ static void (*handlers[NUM_IRQS])(struct Registers *) = {NULL};
 void irq_install(uint_8 num, void (*handler)(struct Registers *))
 {
     handlers[num] = handler;
-    IDT_SetGate(32 + num, (void *)handler, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
+    //IDT_SetGate(32 + num, (void *)handler, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
 }
 
 void irq_uninstall(uint_8 num)
 {
     handlers[num] = NULL;
-    IDT_SetGate(32 + num, (void *)0, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
+    //IDT_SetGate(32 + num, (void *)0, 0x08, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_PRESENT | IDT_FLAG_RING0);
 }
 
 void irq_init()
@@ -63,8 +63,7 @@ void irq_init()
     outb(PIC1_DATA, INT_OFFSET);
     outb(PIC2_DATA, INT_OFFSET);
 
-
-    idt_Init();
+    idt_init();
     asm volatile("sti"); // enable hardware interrupts
 }
 
