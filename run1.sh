@@ -22,4 +22,4 @@ i386-elf-ld -o "build/full_kernel.bin" -Ttext 0x1000 "build/kernel_entry.o" "bui
 
 cat "build/boot.bin" "build/full_kernel.bin" "build/zeroes.bin"  > "build/OS.bin"
 
-qemu-system-x86_64 -drive format=raw,file="build/OS.bin",index=0,if=floppy,  -m 128M
+qemu-system-x86_64  -drive format=raw,file="build/OS.bin",index=0,if=floppy,  -m 128M

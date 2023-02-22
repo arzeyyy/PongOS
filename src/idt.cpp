@@ -13,7 +13,7 @@ static struct
 
 extern "C" void idt_flush(uint_32);
 
- void idt_set_gate(uint_8 interrupt, uint_32 base, uint_16 seg_sel, uint_8 flags)
+void idt_set_gate(uint_8 interrupt, uint_32 base, uint_16 seg_sel, uint_8 flags)
 {
     idt.entries[interrupt].base_lo = base & 0xFFFF;
     idt.entries[interrupt].base_hi = (base >> 16) & 0xFFFF;

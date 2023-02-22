@@ -55,14 +55,25 @@ void isr_install(uint_8 num, void (*handler)(registers_t))
 
 void exception_handler(registers_t regs)
 {
-    panic(exceptions[regs.int_num]);
+    //panic(exceptions[regs.int_num]);
     //panic(toString(regs.int_num));
 }
 
 extern "C" void isr_handler(registers_t regs)
 {
-    //panic(toString(regs.int_num));
-    
+    // if (regs.int_num < 32)
+    // {
+    //     outb(0x20, 0x20); // send reset signal to master PIC
+    //     if (regs.int_num >= 16)
+    //     {
+    //         outb(0xA0, 0x20); // send reset signal to slave PIC
+    //     }
+    // }
+
+    // if (regs.int_num < sizeof(exceptions) / sizeof(char *))
+    // {
+    // }
+   // panic(toString(regs.int_num));
     panic(exceptions[regs.int_num]);
 
     //uint_8 int_num = inb(0x21); // reads the interrupt number from PIC Interrupt Request Register
