@@ -28,6 +28,7 @@ void idt_init()
     idt.pointer.base = (uint_32)&idt.entries;
     memset(idt.entries, 0, sizeof(idt.entries));
 
+
     idt_set_gate(0, (uint_32)isr0, 0x08, 0x8E);
     idt_set_gate(1, (uint_32)isr1, 0x08, 0x8E);
     idt_set_gate(2, (uint_32)isr2, 0x08, 0x8E);
@@ -60,7 +61,6 @@ void idt_init()
     idt_set_gate(29, (uint_32)isr29, 0x08, 0x8E);
     idt_set_gate(30, (uint_32)isr30, 0x08, 0x8E);
     idt_set_gate(31, (uint_32)isr31, 0x08, 0x8E);
-    idt_set_gate(32, (uint_32)isr32, 0x08, 0x8E);
 
     idt_flush((uint_32)&idt.pointer);
 }
