@@ -135,6 +135,49 @@ static const uint_8 FONT[128][8] = {
 
 };
 
+void setChar(char c, uint_16 pos_x, uint_16 pos_y, uint_8 color)
+{
+    if (c < 0 || c > 128)
+        return;
+
+    const uint_8 *glyph = FONT[(size_t)c]; // c is index to acces specific row in FONT
+
+    for (size_t yy = 0; yy < 8; yy++) // yy = whole line, columns
+    {
+        for (size_t xx = 0; xx < 8; xx++) // xx = 1 byte, rows
+        {
+            if (glyph[yy] & (1 << xx)) // (1 << xx), xx=2, bitwise left 00000001 = 00000100,
+            {
+                draw_pixel(pos_x + xx, pos_y + yy, color);
+            }
+        }
+    }
+}
+void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
+{
+    uint_16 init_x = pos_x;
+    uint_16 init_y = pos_y;
+
+    char c;
+
+    while ((c = *s++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
+    {
+        switch (c)
+        {
+        case NEW_LINE:
+            pos_y += 8;
+            pos_x = init_x;
+            break;
+
+        default:
+            setChar(c, pos_x, pos_y, color);
+            pos_x += 8;
+            break;
+        }
+    }
+}
+
+
 Font::Font(/* args */)
 {
     pos_x = 0;

@@ -3,28 +3,26 @@
 #include "../include/isr.h"
 #include "../include/irq.h"
 
-#define PIT_HZ 1193181
-#define DIV_OF_FREQ(_f) (PIT_HZ / (_f))
-#define FREQ_OF_DIV(_d) (PIT_HZ / (_d))
+// #define PIT_HZ 1193181
+// #define DIV_OF_FREQ(_f) (PIT_HZ / (_f))
+// #define FREQ_OF_DIV(_d) (PIT_HZ / (_d))
 
 uint_32 tick = 0;
 
 void timer_callback(registers_t regs)
 {
     tick++;
-    Font font;
-    font.setColor(0x0f);
-    // font.setOrigin(font.getLocalBounds().width / 2, font.getLocalBounds().height / 2);
-    // font.setString("PongOS\nnew line");
-    font.setString("cs");
-    font.draw();
+    monitor_write("\nTick: ");
+    monitor_write(toString(tick));
+    monitor_write("\n");
+
 }
 
 void init_timer(uint_32 frequency)
 {
 
     //Firstly, register our timer callback.
-    register_interrupt_handler(IRQ0, &timer_callback);
+    isr_install(IRQ0, &timer_callback);
 
 
     // The value we send to the PIT is the value to divide it's input clock

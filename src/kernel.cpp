@@ -43,7 +43,9 @@ extern "C" void main()
 
     clear();
     screen_init();
-    init_timer(50);
+    monitor_write("ahoj");
+    monitor_write("\ncs");
+    //init_timer(50);
     // draw_palette_tester();
     // draw_pixel(319, 199, 0xFF);
 

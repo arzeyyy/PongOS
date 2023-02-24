@@ -45,11 +45,11 @@ const char *exceptions[] = {
     "Reserved",
 };
 
-isr_t interrupt_handlers[256];
+isr_t handlers[256];
 
-void register_interrupt_handler(uint_8 n, isr_t handler)
+void isr_install(uint_8 n, isr_t handler)
 {
-    interrupt_handlers[n] = handler;
+    handlers[n] = handler;
 }
 
 void exception_handler(registers_t regs)
@@ -75,9 +75,9 @@ extern "C" void irq_handler(registers_t regs)
 {
     sendEOI(regs);
 
-    if (interrupt_handlers[regs.int_num] != 0)
+    if (handlers[regs.int_num] != 0)
     {
-        isr_t handler = interrupt_handlers[regs.int_num];
+        isr_t handler = handlers[regs.int_num];
         handler(regs);
     }
 }
