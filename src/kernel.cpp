@@ -37,17 +37,16 @@ extern "C" void main()
 
     init_keyboard();
     //asm volatile("sti");
-    //init_timer(50);
+    init_timer(50);
     //irq_init();
     trigger_exception();
 
 
-    // Clear(BACKGROUND_BLUE | FOREGROUND_WHITE);
     // SetCursorPosition(PositionFromCords(0, 0));
     // printf("Hello world\n\rnew line", FOREGROUND_CYAN | BACKGROUND_BLUE);
 
-    monitor_write("\nahoj");
-    monitor_write("\nahj");
+    //monitor_write("\nahoj");
+    //monitor_write("\nahj");
 
     //monitor_write("\ncs");
     // draw_palette_tester();
