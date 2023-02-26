@@ -1,7 +1,7 @@
-#include "../include/Graphics/vga.h"
 #include "../include/Graphics/Rect.h"
-#include "../include/Graphics/Font.h"
+#include "../include/Window/monitor.h"
 #include "../include/timer.h"
+#include "../include/keyboard.h"
 #include "../include/Text.h"
 #include "../include/util.h"
 #include "../include/idt.h"
@@ -21,7 +21,7 @@ void *_Unwind_Resume = 0;
 void trigger_exception()
 {
     //asm volatile("int $0x3");
-    // asm volatile("int $0x1");
+    //asm volatile("int $0x1");
 
     // uint_8 a = 5;
     // uint_8 b = 0;
@@ -30,10 +30,15 @@ void trigger_exception()
 
 extern "C" void main()
 {
+    monitor_clear();
+    screen_init();
     // Initialize IDT and IRQ
+    isr_init();
 
-    idt_init();
-    irq_init();
+    init_keyboard();
+    //asm volatile("sti");
+    //init_timer(50);
+    //irq_init();
     trigger_exception();
 
 
@@ -41,11 +46,10 @@ extern "C" void main()
     // SetCursorPosition(PositionFromCords(0, 0));
     // printf("Hello world\n\rnew line", FOREGROUND_CYAN | BACKGROUND_BLUE);
 
-    clear();
-    screen_init();
-    monitor_write("ahoj");
-    monitor_write("\ncs");
-    //init_timer(50);
+    monitor_write("\nahoj");
+    monitor_write("\nahj");
+
+    //monitor_write("\ncs");
     // draw_palette_tester();
     // draw_pixel(319, 199, 0xFF);
 

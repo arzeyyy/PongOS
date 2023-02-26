@@ -6,7 +6,9 @@
 #define NEW_LINE 10
 
 
-void monitor_write(const char *s, uint_16 pos_x = 0, uint_16 pos_y = 0, uint_8 color = 0xff);
+//void monitor_write(const char *s, uint_16 pos_x = 0, uint_16 pos_y = 0, uint_8 color = 0xff);
+
+void setChar(char c, uint_16 pos_x, uint_16 pos_y, uint_8 color);
 
 class Font
 {

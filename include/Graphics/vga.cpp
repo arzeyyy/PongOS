@@ -1,10 +1,5 @@
 #include "vga.h"
 
-
-#define MEM_VGA (char *)0xA0000
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 200
-
 // VGA control port addresses
 #define PALETTE_MASK 0x3C6
 #define PALETTE_READ 0x3C7

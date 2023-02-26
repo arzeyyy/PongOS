@@ -153,29 +153,7 @@ void setChar(char c, uint_16 pos_x, uint_16 pos_y, uint_8 color)
         }
     }
 }
-void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
-{
-    uint_16 init_x = pos_x;
-    uint_16 init_y = pos_y;
 
-    char c;
-
-    while ((c = *s++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
-    {
-        switch (c)
-        {
-        case NEW_LINE:
-            pos_y += 8;
-            pos_x = init_x;
-            break;
-
-        default:
-            setChar(c, pos_x, pos_y, color);
-            pos_x += 8;
-            break;
-        }
-    }
-}
 
 
 Font::Font(/* args */)

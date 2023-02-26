@@ -46,11 +46,6 @@
 
 void irq_remap()
 {
-
-}
-
-void irq_init()
-{
     // Master PIC
     outb(PIC1_COMM, PIC1_ICW1);
     outb(PIC1_DATA, PIC1_OFFS);
@@ -64,6 +59,11 @@ void irq_init()
     outb(PIC2_DATA, PIC2_ICW3);
     outb(PIC2_DATA, PIC2_ICW4);
     outb(PIC2_DATA, 0x0);
+}
+
+void irq_init()
+{
+
     // for (uint_8 i = 0; i < NUM_IRQS; i++)
     // {
     //     irq_uninstall(i);

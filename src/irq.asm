@@ -7,7 +7,7 @@ section .text
 %macro IRQ 2
   global irq%1
   irq%1:
-    cli
+    ;cli
     push byte 0
     push byte %2
     jmp irq_common_stub
@@ -36,12 +36,12 @@ IRQ   15,   47
 ; up for kernel mode segments, calls the C-level fault handler,
 ; and restores the stack frame.
 irq_common_stub:
-   pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
+   pusha          ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
 
-   mov ax, ds               ; Lower 16-bits of eax = ds.
-   push eax                 ; save the data segment descriptor
+   mov ax, ds     ; Lower 16-bits of eax = ds.
+   push eax       ; save the data segment descriptor
 
-   mov ax, 0x10  ; load the kernel data segment descriptor
+   mov ax, 0x10   ; load the kernel data segment descriptor
    mov ds, ax
    mov es, ax
    mov fs, ax
@@ -55,7 +55,7 @@ irq_common_stub:
    mov fs, bx
    mov gs, bx
 
-   popa                     ; Pops edi,esi,ebp...
+   popa           ; Pops edi,esi,ebp...
    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
    sti
    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP

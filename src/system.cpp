@@ -6,10 +6,10 @@ void panic(const char *error)
 {
     if (error != NULL)
     {
-        clear(0x21);
+        clear(0x3);
         Font err_text; 
         err_text.setString(error);
-        err_text.setColor(0x0f);
+        err_text.setColor(0xff);
         err_text.draw();
     }
 
