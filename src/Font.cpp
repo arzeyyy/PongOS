@@ -135,7 +135,7 @@ static const uint_8 FONT[128][8] = {
 
 };
 
-void setChar(char c, uint_16 pos_x, uint_16 pos_y, uint_8 color)
+void setChar(uint_8 c, uint_16 pos_x, uint_16 pos_y, uint_8 color)
 {
     if (c < 0 || c > 128)
         return;
@@ -184,7 +184,7 @@ void Font::setColor(uint_8 color)
     this->color = color;
 }
 
-void Font::setChar(char c)
+void Font::setChar(uint_8 c)
 {
     if (c < 0 || c > 128)
         return;

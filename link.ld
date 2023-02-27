@@ -1,6 +1,7 @@
 ENTRY(_start)
 
-INPUT
+
+/* INPUT
 {
     build/kernel_entry.o
     build/kernel.o
@@ -23,11 +24,11 @@ INPUT
 OUTPUT
 {
     build/full_kernel.bin
-}
+} */
 
 SECTIONS
 {
-    . = 0x8000;
+    . = 0x1000;
 
     .text : ALIGN(0x1000)
     {

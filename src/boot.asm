@@ -22,15 +22,18 @@ mov cl, 0x02            ; read from 2. sector
 mov dl, [BOOT_DISK]
 int 0x13                
 
+; vga graphics mode
 mov ax, 0x13
-int 0x10                  ; vga graphics mode
+int 0x10      
+
 ; mov ax, 0xA000
 ; mov es, ax
 ; es mov byte [0], 15     
-                                    
+
+; vga text mode                                 
 ; mov ah, 0x0
 ; mov al, 0x3
-; int 0x10                ; vga text mode
+; int 0x10                
 
 
 

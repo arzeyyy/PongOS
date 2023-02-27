@@ -8,7 +8,7 @@
 
 //void monitor_write(const char *s, uint_16 pos_x = 0, uint_16 pos_y = 0, uint_8 color = 0xff);
 
-void setChar(char c, uint_16 pos_x, uint_16 pos_y, uint_8 color);
+void setChar(uint_8 c, uint_16 pos_x, uint_16 pos_y, uint_8 color);
 
 class Font
 {
@@ -28,8 +28,7 @@ private:
     
     static const uint_8 a_font[128][8];
 
-
-    void setChar(char c);
+    void setChar(uint_8 c);
 
 public:
     Font(/* args */);

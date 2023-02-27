@@ -5,9 +5,9 @@ section .text
 %macro ISR_NO_ERR 1  ; define a macro, taking one parameter
   [GLOBAL isr%1]        ; %1 accesses the first parameter.
   isr%1:
-    cli
-    push byte 0
-    push byte %1
+    cli                 ; clear the interrupt flag
+    push byte 0         ; error code 
+    push byte %1        ; interrupt number
     jmp isr_common_stub
 %endmacro
 
