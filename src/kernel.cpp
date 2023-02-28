@@ -30,14 +30,15 @@ void trigger_exception()
 
 extern "C" void main()
 {
+    asm volatile("cli"); // disable interrupts
     monitor_clear();
     screen_init();
     // Initialize IDT and IRQ
     isr_init();
 
     init_keyboard();
-    //asm volatile("sti");
     init_timer(50);
+    asm volatile("sti");
     //irq_init();
     trigger_exception();
 
