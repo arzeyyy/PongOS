@@ -1,54 +1,57 @@
-[org 0x7c00]                        
-KERNEL_LOCATION equ 0x1000
-                                    
+[org 0x7c00] 
+KERNEL_LOCATION equ 0x1000 
 
-mov [BOOT_DISK], dl                 
+section .text
+    [global _start]
 
-                                    
-xor ax, ax                          
-mov es, ax
-mov ds, ax
-mov bp, 0x8000
-mov sp, bp
-
-mov bx, KERNEL_LOCATION
-mov dh, 32              ; number of sectors
-
-mov ah, 0x02            ; reading disk function 
-mov al, dh              ; define sectors to read
-mov ch, 0x00            ; cylinder 0
-mov dh, 0x00            ; head 0
-mov cl, 0x02            ; read from 2. sector
-mov dl, [BOOT_DISK]
-int 0x13                
-
-; vga graphics mode
-mov ax, 0x13
-int 0x10      
-
-; mov ax, 0xA000
-; mov es, ax
-; es mov byte [0], 15     
-
-; vga text mode                                 
-; mov ah, 0x0
-; mov al, 0x3
-; int 0x10                
+_start:
+    mov [BOOT_DISK], dl                 
 
 
+    xor ax, ax                          
+    mov es, ax
+    mov ds, ax
+    mov bp, 0x8000
+    mov sp, bp
+
+    mov bx, _start
+    mov dh, 32              ; number of sectors
+
+    mov ah, 0x02            ; reading disk function 
+    mov al, dh              ; define sectors to read
+    mov ch, 0x00            ; cylinder 0
+    mov dh, 0x00            ; head 0
+    mov cl, 0x02            ; read from 2. sector
+    mov dl, [BOOT_DISK]
+    int 0x13                
+
+    ; vga graphics mode
+    mov ax, 0x13
+    int 0x10      
+
+    ; mov ax, 0xA000
+    ; mov es, ax
+    ; es mov byte [0], 15     
+
+    ; vga text mode                                 
+    ; mov ah, 0x0
+    ; mov al, 0x3
+    ; int 0x10                
 
 
-CODE_SEG equ GDT_code - GDT_start
-DATA_SEG equ GDT_data - GDT_start
 
-cli
-lgdt [GDT_descriptor]
-mov eax, cr0
-or eax, 1
-mov cr0, eax
-jmp CODE_SEG:start_protected_mode
 
-jmp $
+    CODE_SEG equ GDT_code - GDT_start
+    DATA_SEG equ GDT_data - GDT_start
+
+    cli
+    lgdt [GDT_descriptor]
+    mov eax, cr0
+    or eax, 1
+    mov cr0, eax
+    jmp CODE_SEG:start_protected_mode
+
+    jmp $
                                     
 BOOT_DISK: db 0
 
@@ -102,7 +105,7 @@ start_protected_mode:
 	mov ebp, 0x90000		; 32 bit stack base pointer
 	mov esp, ebp
 
-    jmp KERNEL_LOCATION
+    jmp _start
 
                                      
  
