@@ -1,7 +1,6 @@
 #pragma once
-
 #include "../util.h"
-#include "vga.h"
+#include "../../src/drivers/vga.h"
 
 class Rect
 {

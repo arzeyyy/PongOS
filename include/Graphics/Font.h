@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../util.h"
-#include "vga.h"
+#include "../../src/drivers/vga.h"
 
 #define NEW_LINE 10
 

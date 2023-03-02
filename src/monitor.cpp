@@ -19,11 +19,15 @@
 //         }
 //     }
 // }
+uint_16 current_line = 0;
+uint_16 current_c = 0;
 
 void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
 {
-    uint_16 init_x = pos_x;
-    uint_16 init_y = pos_y;
+    uint_16 x = pos_x;
+    uint_16 y = pos_y;
+    x += (current_c * 8);
+    y += (current_line * 8);
 
     char c;
 
@@ -32,18 +36,19 @@ void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
         switch (c)
         {
         case NEW_LINE:
-            pos_y += 8;
-            pos_x = init_x;
+            current_line++;
+            current_c = pos_x;
+            x = pos_x;
             break;
 
         default:
-            setChar(c, pos_x, pos_y, color);
-            pos_x += 8;
+            setChar(c, x, y, color);
+            x += 8;
+            current_c ++;
             break;
         }
     }
 }
-
 // static void move_cursor()
 // {
 //     cursor_y = 0;

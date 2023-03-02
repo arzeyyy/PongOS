@@ -10,6 +10,9 @@ typedef unsigned int uint_32;
 typedef unsigned long long uint_64;
 typedef uint_32 size_t;
 
+#define low_16(address) (uint_16)((address)&0xFFFF)
+#define high_16(address) (uint_16)(((address) >> 16) & 0xFFFF)
+
 //write i/o port
 void outb(unsigned short port, unsigned char val);
 //read i/o port

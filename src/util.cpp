@@ -35,6 +35,13 @@ void *memcpy(void *dst, const void *src, size_t n) {
     return dst;
 }
 
+void memory_copy(char *source, char *dest, int nbytes) {
+    int i;
+    for (i = 0; i < nbytes; i++) {
+        *(dest + i) = *(source + i);
+    }
+}
+
 char *strcpy(char *dest, const char *src)
 {
     int char_counter = 0;

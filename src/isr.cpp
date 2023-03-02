@@ -53,7 +53,7 @@ isr_t handlers[256];    // array of function pointers
 
 void isr_init()
 {
-    idt_init();
+    
 
     // Install the ISRs
     idt_set_gate(0, (uint_32)isr0, 0x08, 0x8E);
@@ -90,7 +90,18 @@ void isr_init()
     idt_set_gate(31, (uint_32)isr31, 0x08, 0x8E);
 
     // Remap the PIC
-    irq_remap();
+    
+      // Remap the PIC
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 0x28);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
+    outb(0xA1, 0x0); 
 
     // Install the IRQs
     idt_set_gate(32, (uint_32)irq0, 0x08, 0x8E);
@@ -110,8 +121,8 @@ void isr_init()
     idt_set_gate(46, (uint_32)irq14, 0x08, 0x8E);
     idt_set_gate(47, (uint_32)irq15, 0x08, 0x8E);
 
-    _idt_flush();
-
+    //_idt_flush();
+    idt_init();
 }
 
 void isr_install(uint_8 n, isr_t handler)
@@ -140,7 +151,7 @@ void sendEOI(registers_t regs)
 
 extern "C" void irq_handler(registers_t regs)
 {
-    monitor_write("IRQ!!!");
+    //monitor_write("IRQ!!!");
     sendEOI(regs);
 
     if (handlers[regs.int_num] != NULL)

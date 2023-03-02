@@ -7,14 +7,13 @@ section .text
 _start:
     mov [BOOT_DISK], dl                 
 
-
     xor ax, ax                          
     mov es, ax
     mov ds, ax
     mov bp, 0x8000
     mov sp, bp
 
-    mov bx, _start
+    mov bx, KERNEL_LOCATION
     mov dh, 32              ; number of sectors
 
     mov ah, 0x02            ; reading disk function 
@@ -33,7 +32,7 @@ _start:
     ; mov es, ax
     ; es mov byte [0], 15     
 
-    ; vga text mode                                 
+    ;vga text mode                                 
     ; mov ah, 0x0
     ; mov al, 0x3
     ; int 0x10                
@@ -105,7 +104,7 @@ start_protected_mode:
 	mov ebp, 0x90000		; 32 bit stack base pointer
 	mov esp, ebp
 
-    jmp _start
+    jmp KERNEL_LOCATION
 
                                      
  
