@@ -35,6 +35,24 @@ void *memcpy(void *dst, const void *src, size_t n) {
     return dst;
 }
 
+void memmove(void *dest, void *src, size_t n)
+{
+    // Typecast src and dest addresses to (char *)
+    char *csrc = (char *)src;
+    char *cdest = (char *)dest;
+
+    // Create a temporary array to hold data of src
+    char temp[n];
+
+    // Copy data from csrc[] to temp[]
+    for (size_t i = 0; i < n; i++)
+      temp[i] = csrc[i];
+
+    // Copy data from temp[] to cdest[]
+    for (size_t i = 0; i < n; i++)
+      cdest[i] = temp[i];
+}
+
 void memory_copy(char *source, char *dest, int nbytes) {
     int i;
     for (i = 0; i < nbytes; i++) {

@@ -1,4 +1,4 @@
-#include "../include/irq.h"
+#include "../include/pic.h"
 #include "../include/isr.h"
 #include "../include/idt.h"
 #include "../include/system.h"
@@ -6,10 +6,6 @@
 
 #define NUM_ISRS 48
 #define NUM_INTS 256
-
-// extern "C" void isr0(struct Registers *);
-// extern "C" void isr1(struct Registers *);
-// extern "C" void isr2(struct Registers *);
 
 const char *exceptions[] = {
     "Division By Zero exception",
@@ -53,8 +49,6 @@ isr_t handlers[256];    // array of function pointers
 
 void isr_init()
 {
-    
-
     // Install the ISRs
     idt_set_gate(0, (uint_32)isr0, 0x08, 0x8E);
     idt_set_gate(1, (uint_32)isr1, 0x08, 0x8E);
@@ -90,18 +84,7 @@ void isr_init()
     idt_set_gate(31, (uint_32)isr31, 0x08, 0x8E);
 
     // Remap the PIC
-    
-      // Remap the PIC
-    outb(0x20, 0x11);
-    outb(0xA0, 0x11);
-    outb(0x21, 0x20);
-    outb(0xA1, 0x28);
-    outb(0x21, 0x04);
-    outb(0xA1, 0x02);
-    outb(0x21, 0x01);
-    outb(0xA1, 0x01);
-    outb(0x21, 0x0);
-    outb(0xA1, 0x0); 
+    pic_remap();
 
     // Install the IRQs
     idt_set_gate(32, (uint_32)irq0, 0x08, 0x8E);
@@ -144,9 +127,9 @@ extern "C" void isr_handler(registers_t regs)
 void sendEOI(registers_t regs)
 {
     if (regs.int_num >= 40)
-        outb(0xA0, 0x20);
+        outb(PIC2, PIC_EOI);
 
-    outb(0x20, 0x20);
+    outb(PIC1, PIC_EOI);
 }
 
 extern "C" void irq_handler(registers_t regs)

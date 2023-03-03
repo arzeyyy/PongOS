@@ -16,12 +16,12 @@ i386-elf-gcc -ffreestanding -march=i686 -g -c -fno-common "src/idt.cpp" -o "buil
 nasm "src/idt.asm" -f elf -o "build/idt_asm.o"
 i386-elf-gcc -ffreestanding -march=i686 -g -c -fno-common "src/isr.cpp" -o "build/isr.o"
 nasm "src/isr.asm" -f elf -o "build/isr_asm.o"
-i386-elf-gcc -ffreestanding -march=i686 -g -c -fno-common "src/irq.cpp" -o "build/irq.o"
+i386-elf-gcc -ffreestanding -march=i686 -g -c -fno-common "src/pic.cpp" -o "build/pic.o"
 nasm "src/irq.asm" -f elf -o "build/irq_asm.o"
 
 nasm "src/zeroes.asm" -f bin -o "build/zeroes.bin"
  
-i386-elf-ld -o  "build/full_kernel.bin" -T link.ld  "build/kernel_entry.o" "build/kernel.o" "build/util.o" "build/Text.o" "build/vga.o" "build/Font.o" "build/system.o" "build/idt.o" "build/isr.o" "build/irq.o" "build/idt_asm.o" "build/isr_asm.o" "build/timer.o" "build/irq_asm.o" "build/keyboard.o" "build/monitor.o" -g --oformat binary 
+i386-elf-ld -o  "build/full_kernel.bin" -T link.ld  "build/kernel_entry.o" "build/kernel.o" "build/util.o" "build/Text.o" "build/vga.o" "build/Font.o" "build/system.o" "build/idt.o" "build/isr.o" "build/pic.o" "build/idt_asm.o" "build/isr_asm.o" "build/timer.o" "build/irq_asm.o" "build/keyboard.o" "build/monitor.o" -g --oformat binary 
 
 
 cat "build/boot.bin" "build/full_kernel.bin" "build/zeroes.bin"  > "build/OS.bin"

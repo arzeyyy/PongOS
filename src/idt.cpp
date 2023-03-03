@@ -1,10 +1,6 @@
 #include "../include/idt.h"
-#include "../include/isr.h"
-#include "../include/Graphics/Font.h"
-
 
 #define IDT_SIZE 256
-
 
 static struct
 {

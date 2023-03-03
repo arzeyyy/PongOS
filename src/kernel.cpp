@@ -5,12 +5,7 @@
 #include "../include/Text.h"
 #include "../include/util.h"
 #include "../include/idt.h"
-#include "../include/irq.h"
 #include "../include/isr.h"
-
-uint_8 *SCREEN = (uint_8 *) 0xA0000;
-
-#define VGA_GRAPHICS_MODE 0x13
 
 
 void *__gxx_personality_v0 = 0;
@@ -26,16 +21,25 @@ void trigger_exception()
     // uint_8 c = a / b;
 }
 
+
+
 extern "C" void main()
 {
     monitor_clear();
     screen_init();
+
     // Initialize IDT and IRQ
     isr_init();
+    sti();
+    timer_init(10);
+    draw_palette_tester();
 
-    asm volatile("sti");
-    init_timer(10);
-    //draw_palette_tester();
+    //trigger_exception();
+    while (true)
+    {
+        scroll_screen();
+        //sleep(50);
+    }
 
     // while (1)
     // {
@@ -51,7 +55,6 @@ extern "C" void main()
     // }
 
         // irq_init();
-        // trigger_exception();
 
         // Clear(BACKGROUND_BLUE | FOREGROUND_WHITE);
         // SetCursorPosition(PositionFromCords(0, 0));

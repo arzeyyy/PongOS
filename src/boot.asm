@@ -28,10 +28,6 @@ _start:
     mov ax, 0x13
     int 0x10      
 
-    ; mov ax, 0xA000
-    ; mov es, ax
-    ; es mov byte [0], 15     
-
     ;vga text mode                                 
     ; mov ah, 0x0
     ; mov al, 0x3
@@ -80,16 +76,6 @@ GDT_end:
 GDT_descriptor:
     dw GDT_end - GDT_start - 1
     dd GDT_start
-
-;VESA_VBE_enable:
-;    section .data
-;    vesa_info_block dw 0 ; Reserve a 2-byte location for storing the address of the VESA information block
-;
-;    section .text
-;    mov ax, 0x4f00 ; VESA function call, sub-function 0x4f00 = Return VESA information
-;    mov es, ax ; Load ES with the high word of the VESA information block address
-;    mov bx, 0 ; BX is set to 0 to request the VESA information block
-;    int 0x10 ; Call interrupt 0x10 to get the VESA information
 
 
 [bits 32]

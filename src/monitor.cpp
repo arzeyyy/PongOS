@@ -1,5 +1,5 @@
 #include "../include/Window/monitor.h"
-
+#include "../include/timer.h"
 
 // void setChar(char c, uint_16 pos_x, uint_16 pos_y, uint_8 color)
 // {
@@ -48,6 +48,27 @@ void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
             break;
         }
     }
+}
+
+void scroll_screen()
+{
+    for (size_t i = 0; i < SCREEN_HEIGHT; i++)
+    {
+        memset((uint_8 *)MEM_VGA + (i * SCREEN_WIDTH), (timer_get() - i) % 256, SCREEN_WIDTH);
+    }
+
+    // static uint_8 buffer[SCREEN_WIDTH];
+    // for (int y = 0; y < SCREEN_HEIGHT; y++)
+    // {
+    //     // Copy a row of pixels from the current position to the buffer
+    //     memcpy(buffer, (uint_8 *)(MEM_VGA + y * SCREEN_WIDTH), SCREEN_WIDTH);
+    //     // Shift the pixels in the buffer one pixel to the left
+    //     memmove(buffer, buffer + 1, SCREEN_WIDTH - 1);
+    //     // Fill the empty space with new data
+    //     buffer[SCREEN_WIDTH - 1] = (timer_get() + y) % 256;
+    //     // Copy the updated row back to the screen
+    //     memcpy((uint_8 *)(MEM_VGA + y * SCREEN_WIDTH), buffer, SCREEN_WIDTH);
+    // }
 }
 // static void move_cursor()
 // {

@@ -2,5 +2,6 @@
 
 #include "util.h"
 
-void init_timer(uint_32 frequency);
+void timer_init(uint_32 frequency);
+void sleep(uint_64 milliseconds);
 uint_64 timer_get();
