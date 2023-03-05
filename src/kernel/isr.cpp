@@ -1,8 +1,4 @@
-#include "../include/pic.h"
-#include "../include/isr.h"
-#include "../include/idt.h"
-#include "../include/system.h"
-#include "../include/Window/monitor.h"
+#include "isr.h"
 
 
 const char *exceptions[] = {

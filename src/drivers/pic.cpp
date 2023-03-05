@@ -1,4 +1,4 @@
-#include "../include/pic.h"
+#include "pic.h"
 
 // not 16 because the Master PIC needs to use one 
 // of the interrupt lines (line 2) to signal the Slave PIC

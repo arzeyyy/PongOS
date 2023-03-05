@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "../../include/util.h"
+#include "../kernel/util.h"
 
 #define KEYBOARD_PORT 0x60
 

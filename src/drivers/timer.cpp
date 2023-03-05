@@ -1,6 +1,5 @@
-#include "../include/timer.h"
-#include "../include/Window/monitor.h"
-#include "../include/isr.h"
+#include "timer.h"
+
 
 #define PIT_HZ 1193180
 

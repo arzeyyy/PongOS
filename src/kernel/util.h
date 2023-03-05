@@ -10,6 +10,16 @@ typedef unsigned int uint_32;
 typedef unsigned long long uint_64;
 typedef uint_32 size_t;
 
+typedef struct Vector2f {
+    float x;
+    float y;
+} Vector2f;
+
+typedef struct Vector2u {
+    uint_32 x;
+    uint_32 y;
+} Vector2u;
+
 // 0xFFFF = 11111111 8bit mask
 #define low_16(address) (uint_16)((address) & 0xFFFF)  
 // shift to right 
@@ -42,3 +52,6 @@ void reverse(char str[], int length);
 char *to_string(size_t num, bool hexadecimal = 0);
 
 char *to_ascii(int num);
+
+Vector2f vector2f_new(float x, float y);
+Vector2u vector2u_new(uint_32 x, uint_32 y);

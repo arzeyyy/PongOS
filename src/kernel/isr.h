@@ -1,6 +1,10 @@
 #pragma once
 
 #include "util.h"
+#include "../drivers/pic.h"
+#include "../drivers/screen.h"
+#include "idt.h"
+#include "system.h"
 
 //ISRs reserved for CPU exceptions
 extern "C" void isr0();

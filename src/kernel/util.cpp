@@ -1,4 +1,4 @@
-#include "../include/util.h"
+#include "util.h"
 
 void outb(unsigned short port, unsigned char data) // write to i/o port
 {
@@ -169,4 +169,18 @@ char *to_ascii(int num)
     str[0] = (char)num;
     str[1] = '\0'; // Terminate the string
     return str;
+}
+
+Vector2f vector2f_new(float x, float y) {
+    Vector2f v;
+    v.x = x;
+    v.y = y;
+    return v;
+}
+
+Vector2u vector2u_new(uint_32 x, uint_32 y) {
+    Vector2u v;
+    v.x = x;
+    v.y = y;
+    return v;
 }

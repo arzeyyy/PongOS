@@ -1,6 +1,6 @@
 #pragma once
-#include "../util.h"
-#include "../../src/drivers/vga.h"
+#include "util.h"
+#include "../drivers/screen.h"
 
 class Rect
 {
@@ -59,6 +59,12 @@ public:
     {
         return (color);
     }
+
+    // void Rect::move(int dx, int dy)
+    //  {
+    //     pos_x += dx;
+    //     pos_y += dy;
+    // }
 
     void draw()
     {

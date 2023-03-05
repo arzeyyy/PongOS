@@ -1,4 +1,4 @@
-#include "../include/Graphics/Font.h"
+#include "Font.h"
 
 // The value of each 8-bit integer represents a row of pixels in the character
 

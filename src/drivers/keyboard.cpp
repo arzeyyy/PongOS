@@ -1,7 +1,6 @@
 #include "keyboard.h"
-#include "../../include/isr.h"
-#include "../../include/util.h"
-#include "../../include/Window/monitor.h"
+#include "screen.h"
+#include "../kernel/isr.h"
 
 const char* keycode;
 

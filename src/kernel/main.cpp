@@ -1,12 +1,11 @@
-#include "../include/Graphics/Rect.h"
-#include "../include/Window/monitor.h"
-#include "../include/timer.h"
-#include "drivers/keyboard.h"
-#include "../include/Text.h"
-#include "../include/util.h"
-#include "../include/idt.h"
-#include "../include/isr.h"
-
+#include "Rect.h"
+#include "../drivers/screen.h"
+#include "../drivers/timer.h"
+#include "../drivers/keyboard.h"
+#include "../../bordel/Text.h"
+#include "../kernel/util.h"
+#include "idt.h"
+#include "isr.h"
 
 void *__gxx_personality_v0 = 0;
 void *_Unwind_Resume = 0;
@@ -14,18 +13,17 @@ void *_Unwind_Resume = 0;
 void trigger_exception()
 {
     //asm volatile("int $0x3");
-    //asm volatile("int $0x1");
+    //asm volatile("int $0x0");
 
     // uint_8 a = 5;
     // uint_8 b = 0;
     // uint_8 c = a / b;
 }
 
-
-
-extern "C" void main()
+void init_kernel()
 {
-    monitor_clear();
+    // Initialize screen
+    screen_clear();
     screen_init();
 
     // Initialize IDT and IRQ
@@ -33,9 +31,14 @@ extern "C" void main()
     sti();
     timer_init(10);
     init_keyboard();
+}
+
+extern "C" void main()
+{
+    init_kernel();
     //draw_palette_tester();
 
-    //trigger_exception();
+    trigger_exception();
     while (true)
     {
         //scroll_screen();

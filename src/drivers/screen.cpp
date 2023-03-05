@@ -1,4 +1,4 @@
-#include "vga.h"
+#include "screen.h"
 
 // VGA control port addresses
 #define PALETTE_MASK 0x3C6
@@ -15,7 +15,7 @@ uint_8 back = 0;
 #define CURRENT (buffers[back])
 #define SWAP() (back = 1 - back)
 
-void clear(uint_8 color)
+void screen_clear(uint_8 color)
 {
   // filling vga graphics memory with 'color', 64000=size of vga graphics memory
   memset((char *)MEM_VGA, color, 64000); 
@@ -64,3 +64,41 @@ void screen_init() {
   outb(PALETTE_DATA, 0x3F);
 }
 
+uint_16 current_line = 0;
+uint_16 current_c = 0;
+
+void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
+{
+  uint_16 x = pos_x;
+  uint_16 y = pos_y;
+  x += (current_c * 8);
+  y += (current_line * 8);
+
+  char c;
+
+  while ((c = *s++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
+  {
+    switch (c)
+    {
+    case NEW_LINE:
+      current_line++;
+      current_c = pos_x;
+      x = pos_x;
+      break;
+
+    default:
+      setChar(c, x, y, color);
+      x += 8;
+      current_c++;
+      break;
+    }
+  }
+}
+
+void scroll_screen()
+{
+  for (size_t i = 0; i < SCREEN_HEIGHT; i++)
+  {
+    memset((uint_8 *)MEM_VGA + (i * SCREEN_WIDTH), (timer_get() - i) % 256, SCREEN_WIDTH);
+  }
+}
