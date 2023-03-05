@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VGA_H
+#define VGA_H
 
 #include "../../include/util.h"
 
@@ -13,3 +14,5 @@ void draw_pixel(uint_16 x, uint_16 y, uint_8 color);
 void draw_palette_tester();
 void screen_init();
 void screen_swap();
+
+#endif

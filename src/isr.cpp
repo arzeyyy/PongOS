@@ -4,8 +4,6 @@
 #include "../include/system.h"
 #include "../include/Window/monitor.h"
 
-#define NUM_ISRS 48
-#define NUM_INTS 256
 
 const char *exceptions[] = {
     "Division By Zero exception",

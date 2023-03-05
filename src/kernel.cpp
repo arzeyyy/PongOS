@@ -1,7 +1,7 @@
 #include "../include/Graphics/Rect.h"
 #include "../include/Window/monitor.h"
 #include "../include/timer.h"
-#include "../include/keyboard.h"
+#include "drivers/keyboard.h"
 #include "../include/Text.h"
 #include "../include/util.h"
 #include "../include/idt.h"
@@ -31,15 +31,17 @@ extern "C" void main()
     // Initialize IDT and IRQ
     isr_init();
     sti();
-    timer_init(10);
-    draw_palette_tester();
+    //timer_init(10);
+    //monitor_write("cs");
+    init_keyboard();
+    //draw_palette_tester();
 
     //trigger_exception();
-    while (true)
-    {
-        scroll_screen();
-        //sleep(50);
-    }
+    // while (true)
+    // {
+    //     scroll_screen();
+    //     //sleep(50);
+    // }
 
     // while (1)
     // {
@@ -65,7 +67,7 @@ extern "C" void main()
         // monitor_write("\n");
         // monitor_write("helo: ");
 
-        // monitor_write("\ncs");
+
         //  draw_palette_tester();
         //  draw_pixel(319, 199, 0xFF);
 

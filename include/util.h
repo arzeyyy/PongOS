@@ -35,6 +35,8 @@ char *strcpy(char *dest, const char *src);
 //string length
 size_t strlen(const char *str);
 
+void to_ascii(int n, char str[]);
+
 void reverse(char str[], int length);
 //intiger to string
 char *toString(size_t num, bool hexadecimal = 0);

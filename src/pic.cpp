@@ -6,20 +6,19 @@
 // Slave PIC 8 - 15
 #define NUM_IRQS 15
 
-// PIC Constants
 // Master
-#define PIC1_DATA (PIC1 + 1)    // 0x21
+#define PIC1_DATA (PIC1 + 1)    // 0x21, data register of the Master PIC
 #define PIC1_OFFS 0x20          // interrupt number at which the first IRQ of the Master PIC is mapped
-#define PIC1_ICW1 0x11          // PIC initialise command
-#define PIC1_ICW3 0x04          // tell the PIC which IRQ line is connected to the slave PIC
-#define PIC1_ICW4 0x01          // tell the PIC to operate in 8086/88 mode
+#define PIC1_ICW1 0x11          // PIC initialize command
+#define PIC1_ICW3 0x04          // tells the PIC which IRQ line is connected to the slave PIC
+#define PIC1_ICW4 0x01          // tells the PIC to operate in 8086/88 mode
 
 // Slave
-#define PIC2_DATA (PIC2 + 1)    // 0xA1
-#define PIC2_OFFS 0x28          // nterrupt number at which the first IRQ of the Slave PIC is mapped
-#define PIC2_ICW1 0x11          // tell the PIC that initialization sequence is starting
-#define PIC2_ICW3 0x02          // tell the PIC which IRQ line on the Master PIC is connected to the slave PIC
-#define PIC2_ICW4 0x01          // tell the PIC to operate in 8086/88 mode
+#define PIC2_DATA (PIC2 + 1)    // 0xA1, data register of the Slave PIC
+#define PIC2_OFFS 0x28          // interrupt number at which the first IRQ of the Slave PIC is mapped
+#define PIC2_ICW1 0x11          // tells the PIC that initialization sequence is starting
+#define PIC2_ICW3 0x02          // tells the PIC which IRQ line on the Master PIC is connected to the slave PIC
+#define PIC2_ICW4 0x01          // tells the PIC to operate in 8086/88 mode
 
 
 void pic_remap()
