@@ -39,4 +39,6 @@ void to_ascii(int n, char str[]);
 
 void reverse(char str[], int length);
 //intiger to string
-char *toString(size_t num, bool hexadecimal = 0);
+char *to_string(size_t num, bool hexadecimal = 0);
+
+char *to_ascii(int num);

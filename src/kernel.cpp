@@ -31,17 +31,16 @@ extern "C" void main()
     // Initialize IDT and IRQ
     isr_init();
     sti();
-    //timer_init(10);
-    //monitor_write("cs");
+    timer_init(10);
     init_keyboard();
     //draw_palette_tester();
 
     //trigger_exception();
-    // while (true)
-    // {
-    //     scroll_screen();
-    //     //sleep(50);
-    // }
+    while (true)
+    {
+        //scroll_screen();
+        //sleep(50);
+    }
 
     // while (1)
     // {

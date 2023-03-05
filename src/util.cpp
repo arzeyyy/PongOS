@@ -98,21 +98,8 @@ void reverse(char str[], int length)
     }
 }
 
-void to_ascii(int n, char str[]) {
-    int i, sign;
-    if ((sign = n) < 0) n = -n;
-    i = 0;
-    do {
-        str[i++] = n % 10 + '0';
-    } while ((n /= 10) > 0);
 
-    if (sign < 0) str[i++] = '-';
-    str[i] = '\0';
-
-    reverse(str, strlen(str));
-}
-
-char *toString(size_t num, bool hexadecimal)
+char *to_string(size_t num, bool hexadecimal)
 {
     if(hexadecimal == true)
     {
@@ -173,5 +160,13 @@ char *toString(size_t num, bool hexadecimal)
     reverse(str, i);
 
     // Return the string
+    return str;
+}
+
+char *to_ascii(int num)
+{
+    static char str[2]; // Need only one character for ASCII representation
+    str[0] = (char)num;
+    str[1] = '\0'; // Terminate the string
     return str;
 }

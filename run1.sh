@@ -21,7 +21,7 @@ nasm "src/irq.asm" -f elf -o "build/irq_asm.o"
 
 nasm "src/zeroes.asm" -f bin -o "build/zeroes.bin"
  
-i386-elf-ld -o  "build/full_kernel.bin" -T link.ld  "build/kernel_entry.o" "build/kernel.o" "build/util.o" "build/keyboard.o"  "build/Text.o" "build/vga.o" "build/Font.o" "build/system.o" "build/idt.o" "build/isr.o" "build/pic.o" "build/idt_asm.o" "build/isr_asm.o" "build/timer.o" "build/irq_asm.o"  "build/monitor.o" -g --oformat binary 
+i386-elf-ld -o  "build/full_kernel.bin" -T link.ld  "build/kernel_entry.o" "build/kernel.o" "build/util.o" "build/keyboard.o" "build/Text.o" "build/vga.o" "build/Font.o" "build/system.o" "build/idt.o" "build/isr.o" "build/pic.o" "build/idt_asm.o" "build/isr_asm.o" "build/timer.o" "build/irq_asm.o"  "build/monitor.o" -g --oformat binary 
 
 
 cat "build/boot.bin" "build/full_kernel.bin" "build/zeroes.bin"  > "build/OS.bin"

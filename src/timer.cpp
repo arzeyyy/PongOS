@@ -14,7 +14,7 @@ static struct
 void print_ticks()
 {
     monitor_write("Tick: ");
-    monitor_write(toString(state.ticks));
+    monitor_write(to_string(state.ticks));
     monitor_write("\n");
 }
 

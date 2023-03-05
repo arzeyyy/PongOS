@@ -9,10 +9,11 @@
 static uint_8 *BUFFER = (uint_8 *)0xA0000;
 
 // double buffers
-uint_8 screen_buffer1[SCREEN_HEIGHT][SCREEN_WIDTH];
-uint_8 screen_buffer2[SCREEN_HEIGHT][SCREEN_WIDTH];
-uint_8 *current_buffer = &screen_buffer1[0][0];
-uint_8 *next_buffer = &screen_buffer2[0][0];
+uint_8 buffers[2][SCREEN_SIZE];
+uint_8 back = 0;
+
+#define CURRENT (buffers[back])
+#define SWAP() (back = 1 - back)
 
 void clear(uint_8 color)
 {
@@ -22,16 +23,8 @@ void clear(uint_8 color)
 
 void screen_swap()
 {
-  // Swap the current and next buffer pointers
-  uint_8 *temp = current_buffer;
-  current_buffer = next_buffer;
-  next_buffer = temp;
-
-  // Copy the next buffer to the VGA graphics memory
-  for (int i = 0; i < SCREEN_HEIGHT; i++)
-  {
-    memcpy((uint_8 *)(MEM_VGA + i * SCREEN_WIDTH), next_buffer + i * SCREEN_WIDTH, SCREEN_WIDTH);
-  }
+  memcpy(BUFFER, &CURRENT, SCREEN_SIZE);
+  SWAP();
 }
 
 void draw_pixel(uint_16 x , uint_16 y, uint_8 color)
