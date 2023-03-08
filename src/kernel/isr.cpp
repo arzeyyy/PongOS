@@ -1,6 +1,5 @@
 #include "isr.h"
 
-
 const char *exceptions[] = {
     "Division By Zero exception",
     "Debug exception",
@@ -19,7 +18,7 @@ const char *exceptions[] = {
     "General Protection Fault",
     "Page Fault",
     "Unknown Interrupt exception",
-    
+
     "Coprocessor Fault",
     "Alignment Check exception",
     "Machine Check exception",
@@ -39,7 +38,7 @@ const char *exceptions[] = {
     "Reserved",
 };
 
-isr_t handlers[256];    // array of function pointers
+isr_t handlers[256]; // array of function pointers
 
 void isr_init()
 {
@@ -110,7 +109,7 @@ void isr_install(uint_8 n, isr_t handler)
 void exception_handler(registers_t regs)
 {
     panic(exceptions[regs.int_num]);
-    //panic(toString(regs.int_num));
+    // panic(toString(regs.int_num));
 }
 
 extern "C" void isr_handler(registers_t regs)
@@ -128,7 +127,7 @@ void sendEOI(registers_t regs)
 
 extern "C" void irq_handler(registers_t regs)
 {
-    //monitor_write("IRQ!!!");
+    // monitor_write("IRQ!!!");
     sendEOI(regs);
 
     if (handlers[regs.int_num] != NULL)

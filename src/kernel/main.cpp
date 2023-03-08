@@ -4,8 +4,11 @@
 #include "../drivers/keyboard.h"
 #include "../../bordel/Text.h"
 #include "../kernel/util.h"
+#include "../pong/Game.h"
 #include "idt.h"
 #include "isr.h"
+
+#define FPS 60
 
 void *__gxx_personality_v0 = 0;
 void *_Unwind_Resume = 0;
@@ -23,7 +26,6 @@ void trigger_exception()
 void init_kernel()
 {
     // Initialize screen
-    screen_clear();
     screen_init();
 
     // Initialize IDT and IRQ
@@ -35,13 +37,24 @@ void init_kernel()
 
 extern "C" void main()
 {
-    init_kernel();
-    //draw_palette_tester();
 
-    trigger_exception();
+    init_kernel();
+
+
+    screen_clear();
+    draw_palette_tester();
+    screen_swap();
+    //draw_pixel(0, 0, 255);
+
+    //trigger_exception();
+
+    // Game game;
+    // game.Init();
+
     while (true)
     {
-        //scroll_screen();
+        //game.Run();
+        scroll_screen();
         //sleep(50);
     }
 

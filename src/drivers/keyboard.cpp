@@ -245,7 +245,7 @@ void print_letter(uint_8 scancode) {
             if (scancode <= 0x7f) {
                 monitor_write("Unknown key down");
             } else if (scancode <= 0x39 + 0x80) {
-                monitor_write("key up ");
+                //monitor_write("key up ");
                 print_letter(scancode - 0x80);
             } else monitor_write("Unknown key up");
             break;
@@ -270,6 +270,6 @@ static void keyboard_callback(registers_t regs)
 
 void init_keyboard()
 {
-    monitor_write("Keyboard");
+    //monitor_write("Keyboard");
     isr_install(IRQ1, keyboard_callback);
 }

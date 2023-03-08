@@ -3,12 +3,6 @@
 
 #define PIT_HZ 1193180
 
-static struct
-{
-    uint_64 divisor;
-    uint_64 ticks;
-    uint_32 freq;
-} state;
 
 void print_ticks()
 {

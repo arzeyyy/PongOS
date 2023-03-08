@@ -17,21 +17,24 @@ uint_8 back = 0;
 
 void screen_clear(uint_8 color)
 {
-  // filling vga graphics memory with 'color', 64000=size of vga graphics memory
-  memset((char *)MEM_VGA, color, 64000); 
+  // filling vga graphics memory with 'color'
+  //memset(&CURRENT, color, SCREEN_SIZE);
+  memset((char *)MEM_VGA, color, SCREEN_SIZE);
 }
 
 void screen_swap()
 {
-  memcpy(BUFFER, &CURRENT, SCREEN_SIZE);
+  memcpy(BUFFER, CURRENT, SCREEN_SIZE);
   SWAP();
 }
 
 void draw_pixel(uint_16 x , uint_16 y, uint_8 color)
 {
+  // uint_16 offset = y * SCREEN_WIDTH + x; // specifying position
+  // CURRENT[offset] = color;               // draw pixel on back buffer
   uint_16 offset = y * SCREEN_WIDTH + x;  //specifying position
   uint_8 *vram = (uint_8 *)MEM_VGA;       // points to single byte of memory, initialized in start of MEM_VGA
-  *(vram + offset) = color;               // vram + offset, vram[offset] = color
+  *(vram + offset) = color;               // vram + offset (vram[offset]) = color
 }
 
 uint_8 screen_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
@@ -45,6 +48,7 @@ void draw_palette_tester()
 
   // Write the color from screen_buffer to vga memory
   memcpy(MEM_VGA, screen_buffer, sizeof(screen_buffer));
+  // memcpy(&CURRENT, screen_buffer, sizeof(screen_buffer));
 }
 
 void screen_init() {

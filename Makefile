@@ -1,9 +1,10 @@
+LIBRARY_PATH=/usr/lib32:$LIBRARY_PATH
+export LIBRARY_PATH
 
-
-C_SOURCES = $(wildcard kernel/*.cpp drivers/*.cpp cpu/*.cpp libc/*.cpp)
-HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h)
+C_SOURCES = $(wildcard src/kernel/*.c src/drivers/*.c src/pong/*.c )
+HEADERS = $(wildcard src/kernel/*.h src/drivers/*.h src/pong/*.h)
 # Nice syntax for file extension replacement
-OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o} 
+OBJ = ${C_SOURCES:.c=.o src/kernel/idt.o src/kernel/isr.o src/kernel/irq.o} 
 
 # Change this if your cross-compiler is somewhere else
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
@@ -13,12 +14,12 @@ LD = /usr/local/i386elfgcc/bin/i386-elf-ld
 CFLAGS = -g 
 
 # First rule is run by default
-os-image.bin: boot/bootsect.bin kernel.bin
+os-image.bin: src/kernel/boot.bin kernel.bin
 	cat $^ > os-image.bin
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
 # to 'strip' them manually on this case
-kernel.bin: boot/kernel_entry.o ${OBJ}
+kernel.bin: src/kernel/kernel_entry.o src/kernel/zeroes.o ${OBJ}
 	${LD} -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
@@ -46,4 +47,4 @@ debug: os-image.bin kernel.elf
 
 clean:
 	rm -rf *.bin *.dis *.o os-image.bin *.elf
-	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o
+	rm -rf src/kernel/*.o src/drivers/*.o 
