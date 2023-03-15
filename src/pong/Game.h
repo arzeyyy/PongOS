@@ -14,6 +14,8 @@ public:
     Game(/* args */);
     void Init();
     void Run();
+
+    float delta_time;
 };
 
 

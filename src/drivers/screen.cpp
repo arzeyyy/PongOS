@@ -9,32 +9,44 @@
 static uint_8 *BUFFER = (uint_8 *)0xA0000;
 
 // double buffers
-uint_8 buffers[2][SCREEN_SIZE];
+uint_8 buffers[SCREEN_SIZE];
+
+uint_8 buff[2][SCREEN_SIZE];
 uint_8 back = 0;
 
-#define CURRENT (buffers[back])
+#define CURRENT (buff[back])
 #define SWAP() (back = 1 - back)
 
-void screen_clear(uint_8 color)
+void clear(uint_8 color)
 {
-  // filling vga graphics memory with 'color'
-  //memset(&CURRENT, color, SCREEN_SIZE);
-  memset((char *)MEM_VGA, color, SCREEN_SIZE);
+  memset(CURRENT, color, SCREEN_SIZE);
 }
 
-void screen_swap()
+// void screen_clear(uint_8 color)
+// {
+//   // filling vga graphics memory with 'color'
+//   //memset(buffers, color, SCREEN_SIZE);
+//   memset((char *)MEM_VGA, color, SCREEN_SIZE);
+// }
+
+void swap_buffers()
 {
   memcpy(BUFFER, CURRENT, SCREEN_SIZE);
-  SWAP();
+  //back = (1 - back);
+  if(back == 0)
+    back = 1;
+  else if(back == 1)
+    back = 0;
+  //SWAP();
 }
 
 void draw_pixel(uint_16 x , uint_16 y, uint_8 color)
 {
-  // uint_16 offset = y * SCREEN_WIDTH + x; // specifying position
-  // CURRENT[offset] = color;               // draw pixel on back buffer
-  uint_16 offset = y * SCREEN_WIDTH + x;  //specifying position
-  uint_8 *vram = (uint_8 *)MEM_VGA;       // points to single byte of memory, initialized in start of MEM_VGA
-  *(vram + offset) = color;               // vram + offset (vram[offset]) = color
+  uint_16 offset = y * SCREEN_WIDTH + x; // specifying position
+  CURRENT[offset] = color;               // draw pixel on back buffer
+  // uint_16 offset = y * SCREEN_WIDTH + x;  //specifying position
+  // uint_8 *vram = (uint_8 *)MEM_VGA;       // points to single byte of memory, initialized in start of MEM_VGA
+  // *(vram + offset) = color;               // vram + offset (vram[offset]) = color
 }
 
 uint_8 screen_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
@@ -47,8 +59,8 @@ void draw_palette_tester()
   }
 
   // Write the color from screen_buffer to vga memory
-  memcpy(MEM_VGA, screen_buffer, sizeof(screen_buffer));
-  // memcpy(&CURRENT, screen_buffer, sizeof(screen_buffer));
+  //memcpy(MEM_VGA, screen_buffer, sizeof(screen_buffer));
+  memcpy(&CURRENT, screen_buffer, sizeof(screen_buffer));
 }
 
 void screen_init() {
@@ -68,32 +80,37 @@ void screen_init() {
   outb(PALETTE_DATA, 0x3F);
 }
 
-uint_16 current_line = 0;
-uint_16 current_c = 0;
+
+static struct
+{
+  uint_16 line = 0;
+  uint_16 c = 0;
+} current;
 
 void monitor_write(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
 {
   uint_16 x = pos_x;
   uint_16 y = pos_y;
-  x += (current_c * 8);
-  y += (current_line * 8);
+  x += (current.c * 8);
+  y += (current.line * 8);
 
   char c;
 
-  while ((c = *s++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
+  // (c = *s++) first, loop until character pointed to by 's' is a null terminator (0)
+  while ((c = *s++) != NULL) 
   {
     switch (c)
     {
     case NEW_LINE:
-      current_line++;
-      current_c = pos_x;
+      current.line++;
+      current.c = 0;
       x = pos_x;
       break;
 
     default:
       setChar(c, x, y, color);
       x += 8;
-      current_c++;
+      current.c++;
       break;
     }
   }

@@ -35,7 +35,7 @@ public:
 
     uint_16 getPosition()
     {
-        return (pos_x, pos_y);
+        return pos_x, pos_y;
     }
 
     void setSize(uint_16 width, uint_16 height)
@@ -47,7 +47,7 @@ public:
 
     uint_16 getSize()
     {
-        return (width, height);
+        return width, height;
     }
 
     void setColor(uint_8 color)
@@ -57,14 +57,14 @@ public:
 
     uint_16 getColor()
     {
-        return (color);
+        return color;
     }
 
-    // void Rect::move(int dx, int dy)
-    //  {
-    //     pos_x += dx;
-    //     pos_y += dy;
-    // }
+    void move(uint_8 x, uint_8 y)
+    {
+        pos_x += x;
+        pos_y += y;
+    }
 
     void draw()
     {

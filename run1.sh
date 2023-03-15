@@ -24,7 +24,7 @@ i386-elf-ld -o  "build/full_kernel.bin" -T link.ld  "build/kernel_entry.o" "buil
 
 cat "build/boot.bin" "build/full_kernel.bin" "build/zeroes.bin"  > "build/OS.bin"
 
-qemu-system-x86_64 -drive format=raw,file="build/OS.bin",index=0,if=floppy,  -m 128M
+qemu-system-x86_64 -d int -drive format=raw,file="build/OS.bin",index=0,if=floppy,  -m 128M
 
 i386-elf-objcopy -I binary -O elf32-i386 "build/OS.bin" "build/OS.elf"
 
