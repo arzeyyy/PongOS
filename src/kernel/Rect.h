@@ -1,15 +1,15 @@
 #pragma once
 #include "util.h"
-#include "../drivers/screen.h"
+#include "../drivers/vga.h"
 
 class Rect
 {
 private:
-    uint_16 pos_x;
-    uint_16 pos_y;
+    int16_t pos_x;
+    int16_t pos_y;
 
-    uint_16 width;
-    uint_16 height;
+    int16_t width;
+    int16_t height;
 
     uint_8 color;
 
@@ -27,27 +27,32 @@ public:
 
     ~Rect() {}
 
-    void setPosition(uint_16 pos_x, uint_16 pos_y)
+    struct Dimensions
+    {
+        int16_t x;
+        int16_t y;
+    };
+
+    void setPosition(int16_t pos_x, int16_t pos_y)
     {
         this->pos_x = pos_x;
         this->pos_y = pos_y;
     }
 
-    uint_16 getPosition()
+    Dimensions getPosition() const
     {
-        return pos_x, pos_y;
+        return {pos_x, pos_y};
     }
 
-    void setSize(uint_16 width, uint_16 height)
+    void setSize(int16_t width, int16_t height)
     {
         this->width = width;
         this->height = height;
     }
 
-
-    uint_16 getSize()
+    Dimensions getSize()
     {
-        return width, height;
+        return {width, height};
     }
 
     void setColor(uint_8 color)
@@ -60,7 +65,7 @@ public:
         return color;
     }
 
-    void move(uint_8 x, uint_8 y)
+    void move(int16_t x, int16_t y)
     {
         pos_x += x;
         pos_y += y;
@@ -72,7 +77,7 @@ public:
         {
             for (uint_16 j = pos_y; j < pos_y + height; j++)
             {
-                draw_pixel(i, j, color);
+                vga_putc(i, j, color);
             }
         }
     }

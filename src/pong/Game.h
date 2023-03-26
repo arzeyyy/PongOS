@@ -1,22 +1,22 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "../drivers/keyboard.h"
 #include "../drivers/timer.h"
 #include "../kernel/util.h"
-#include "../drivers/screen.h"
+#include "../drivers/vga.h"
+#include "../kernel/gfx.h"
 
-class Game
-{
-private:
-    uint_64 last_tick;
+void game_init();
+void game_update();
+void game_draw();
 
-public:
-    Game(/* args */);
-    void Init();
-    void Run();
+extern bool single_player;
 
-    float delta_time;
-};
+// static struct 
+// {
+    
+// }game;
 
 
 #endif

@@ -148,104 +148,130 @@ void setChar(uint_8 c, uint_16 pos_x, uint_16 pos_y, uint_8 color)
         {
             if (glyph[yy] & (1 << xx)) // (1 << xx), xx=2, bitwise left 00000001 = 00000100,
             {
-                draw_pixel(pos_x + xx, pos_y + yy, color);
+                vga_putc(pos_x + xx, pos_y + yy, color);
             }
         }
     }
 }
 
 
-
-Font::Font(/* args */)
+void font_draw(const char *s, uint_16 pos_x, uint_16 pos_y, uint_8 color)
 {
-    pos_x = 0;
-    pos_y = 0;
+    uint_16 x = pos_x;
+    uint_16 y = pos_y;
 
-    init_x = 0;
-    init_y = 0;
-
-    color = 0x0f;
-}
-
-Font::~Font()
-{
-}
-
-void Font::setPosition(uint_16 pos_x, uint_16 pos_y)
-{
-    this->pos_x = pos_x;
-    this->pos_y = pos_y;
-    init_x = pos_x;
-    init_y = pos_y;
-}
-
-void Font::setColor(uint_8 color)
-{
-    this->color = color;
-}
-
-void Font::setChar(uint_8 c)
-{
-    if (c < 0 || c > 128)
-        return;
-
-    const uint_8 *glyph = FONT[(size_t)c]; // c is index to acces specific row in FONT
-
-    for (size_t yy = 0; yy < 8; yy++) // yy = whole line, columns
-    {
-        for (size_t xx = 0; xx < 8; xx++) // xx = 1 byte, rows
-        {
-            if (glyph[yy] & (1 << xx)) // (1 << xx), xx=2, bitwise left 00000001 = 00000100,
-            {
-                draw_pixel(pos_x + xx, pos_y + yy, color);
-            }
-        }
-    }
-}
-
-void Font::setString(const char *s)
-{
-    //*string = *s;
-    strcpy(string, s);
-}
-
-void Font::draw()
-{
     char c;
 
-    while ((c = *string++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
+    // (c = *s++) first, loop until character pointed to by 's' is a null terminator (0)
+    while ((c = *s++) != NULL)
     {
         switch (c)
         {
         case NEW_LINE:
-            pos_y += 8;
-            pos_x = init_x;
+            x = pos_x;
             break;
 
         default:
-            setChar(c);
-            pos_x += 8;
+            setChar(c, x, y, color);
+            x += 8;
             break;
         }
     }
 }
 
-void Font::setOrigin(uint_16 x, uint_16 y)
-{
-    pos_x -= x;
-    pos_y -= y;
-}
 
-struct Font::Bounds Font::getLocalBounds() const
-{
-    int width = 0;
-    int height = 8;
-    const char *s = this->string;
-    char c;
 
-    while ((c = *s++) != 0)
-    {
-        width += 8;
-    }
-    return {width, height};
-}
+
+    // Font::Font(/* args */)
+    // {
+    //     pos_x = 0;
+    //     pos_y = 0;
+
+    //     init_x = 0;
+    //     init_y = 0;
+
+    //     color = 0x0f;
+    // }
+
+    // Font::~Font()
+    // {
+    // }
+
+    // void Font::setPosition(uint_16 pos_x, uint_16 pos_y)
+    // {
+    //     this->pos_x = pos_x;
+    //     this->pos_y = pos_y;
+    //     init_x = pos_x;
+    //     init_y = pos_y;
+    // }
+
+    // void Font::setColor(uint_8 color)
+    // {
+    //     this->color = color;
+    // }
+
+    // void Font::setChar(uint_8 c)
+    // {
+    //     if (c < 0 || c > 128)
+    //         return;
+
+    //     const uint_8 *glyph = FONT[(size_t)c]; // c is index to acces specific row in FONT
+
+    //     for (size_t yy = 0; yy < 8; yy++) // yy = whole line, columns
+    //     {
+    //         for (size_t xx = 0; xx < 8; xx++) // xx = 1 byte, rows
+    //         {
+    //             if (glyph[yy] & (1 << xx)) // (1 << xx), xx=2, bitwise left 00000001 = 00000100,
+    //             {
+    //                 vga_putc(pos_x + xx, pos_y + yy, color);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // void Font::setString(const char *s)
+    // {
+    //     //*string = *s;
+    //     strcpy(string, s);
+    // }
+
+    // void Font::draw()
+    // {
+    //     char c;
+
+    //     while ((c = *string++) != NULL) // (c = *s++) first, loop until character pointed to by s is a null terminator (0)
+    //     {
+    //         switch (c)
+    //         {
+    //         case NEW_LINE:
+    //             pos_y += 8;
+    //             pos_x = init_x;
+    //             break;
+
+    //         default:
+    //             setChar(c);
+    //             pos_x += 8;
+    //             break;
+    //         }
+    //     }
+    // }
+
+    // void Font::setOrigin(uint_16 x, uint_16 y)
+    // {
+    //     pos_x -= x;
+    //     pos_y -= y;
+    // }
+
+    // struct Font::Bounds Font::getLocalBounds() const
+    // {
+    //     int width = 0;
+    //     int height = 8;
+    //     const char *s = this->string;
+    //     char c;
+
+    //     while ((c = *s++) != 0)
+    //     {
+    //         width += 8;
+    //     }
+    //     return {width, height};
+    // }

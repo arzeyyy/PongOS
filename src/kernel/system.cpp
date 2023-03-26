@@ -5,12 +5,13 @@ void panic(const char *error)
 {
     if (error != NULL)
     {
-        clear(0x3);
-        Font err_text; 
-        err_text.setString(error);
-        err_text.setColor(0xff);
-        err_text.draw();
-        swap_buffers();
+        vga_clear(0x3);
+        monitor_write(error);
+        // Font err_text; 
+        // err_text.setString(error);
+        // err_text.setColor(0xff);
+        // err_text.draw();
+        //vga_swap();
     }
 
     for (;;);

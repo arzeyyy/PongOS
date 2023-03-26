@@ -184,3 +184,28 @@ Vector2u vector2u_new(uint_32 x, uint_32 y) {
     v.y = y;
     return v;
 }
+
+int abs(int x)
+{
+    return (x < 0) ? -x : x;
+}
+
+float smooth(float src, float dest, uint_64 time)
+{
+    float val = ((float)abs(dest - src)) / (float)time;
+    return src < dest ? src + val : src - val;
+}
+
+
+
+//template <typename T>
+// bool find(auto array[], auto value)
+// {
+//     for (uint_8 i = 0; i < strlen(array); i++)
+//     {
+//         if(array[i] == value){
+//             return true;
+//         }
+//     }
+//     return false;
+// }

@@ -3,7 +3,7 @@
 
 #include "../kernel/util.h"
 #include "../kernel/isr.h"
-#include "screen.h"
+#include "vga.h"
 
 static struct
 {

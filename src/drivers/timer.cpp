@@ -24,7 +24,7 @@ uint_64 timer_get()
 
 void sleep(uint_64 milliseconds)
 {
-    uint_32 end = state.ticks + milliseconds * state.freq;
+    uint_32 end = state.ticks + (milliseconds * state.freq) / 990;
     while (state.ticks < end);
 }
 

@@ -14,7 +14,7 @@ _start:
     mov sp, bp
 
     mov bx, KERNEL_LOCATION
-    mov dh, 32              ; number of sectors
+    mov dh, 40              ; number of sectors
 
     mov ah, 0x02            ; reading disk function 
     mov al, dh              ; define sectors to read

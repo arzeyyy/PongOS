@@ -2,7 +2,7 @@
 
 #include "util.h"
 #include "../drivers/pic.h"
-#include "../drivers/screen.h"
+#include "../drivers/vga.h"
 #include "idt.h"
 #include "system.h"
 
