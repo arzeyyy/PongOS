@@ -93,19 +93,9 @@ enum keycode
 
 };
 
-// void init_keyboard();
-
-// static struct
-// {
-//     const char *keycode;
-//     uint_8 state_keys[];
-// }state;
-
-
 static struct
 {
     uint_8 scancode;
-    //bool (*is_key_pressed)(uint_8 key);
 } keyboard;
 
 // #endif
