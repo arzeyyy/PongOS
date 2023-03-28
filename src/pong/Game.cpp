@@ -120,32 +120,6 @@ void game_paddle2_s()
     if (ball.pos_y > 5 && ball.pos_y + paddle2.height < SCREEN_HEIGHT - 5)
         rect_set_pos(&paddle2, paddle2.pos_x, ball.pos_y);
 
-    
-    // float y = paddle2.pos_y;
-
-   
-    // if (ball.speed_x > 0)
-    // {
-    //     y = ball.pos_y;
-    //     // if (ball.pos_y > y)
-    //     //     y += 7.f;
-    //     // else
-    //     //     y -= 7.f;
-    // }
-    // else
-    // {
-
-    //     y = smooth(y, SCREEN_HEIGHT / 2, 200);
-    //     // if (y > SCREEN_HEIGHT / 2)
-    //     //     y = smooth(y, SCREEN_HEIGHT / 2, 200);
-    //     // else
-    //     //     y = smooth(y, SCREEN_HEIGHT / 2, 200);
-    // }
-
-    // if (y > 5 && y + paddle2.height < SCREEN_HEIGHT - 5)
-    // {
-    //     rect_set_pos(&paddle2, paddle2.pos_x, y);
-    // }
 }
     
 
@@ -175,9 +149,6 @@ void game_draw()
     font_draw(to_string(score_left), 135, 15);
     font_draw(to_string(score_right), 165, 15);
 
-    // ball.ball.draw();
-    // paddle1.ball.draw();
-    // paddle2.draw();
 }
 
 
